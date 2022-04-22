@@ -1,0 +1,28 @@
+#!/usr/bin/fish
+
+echo 1234567890123456789012345678901234567890123456789012345678901234567890 | ./target/debug/kijetesantakaluotokieni
+
+echo -e "“Oh, you wicked little thing!” cried Alice, catching up the kitten, and giving it a little kiss to make it understand that it was in disgrace. “Really, Dinah ought to have taught you better manners!”\n\n“You ought, Dinah, you know you ought!” she added, looking reproachfully at the old cat, and speaking in as cross a voice as she could manage—and then she scrambled back into the arm-chair, taking the kitten and the worsted with her, and began winding up the ball again." | ./target/debug/kijetesantakaluotokieni
+
+
+#echo -e "'Oh, you wicked little thing!' cried Alice, catching up the kitten, and giving it a little kiss to make it understand that it was in disgrace. 'Really, Dinah ought to have taught you better manners!'\n\n'You ought, Dinah, you know you ought!' she added, looking reproachfully at the old cat, and speaking in as cross a voice as she could manage—and then she scrambled back into the arm-chair, taking the kitten and the worsted with her, and began winding up the ball again." | ./target/debug/kijetesantakaluotokieni
+
+echo "Белеет парус одинокий 
+В тумане моря голубом!.. 
+Что ищет он в стране далекой? 
+Что кинул он в краю родном?..
+ 
+A lonely sail is flashing white
+Amdist the blue mist of the sea!...
+What does it seek in foreign lands?
+What did it leave behind at home?.." | ./target/debug/kijetesantakaluotokieni
+
+echo | ./target/debug/kijetesantakaluotokieni
+
+echo mu | ./target/debug/kijetesantakaluotokieni
+
+echo 1234567890123 | ./target/debug/kijetesantakaluotokieni
+
+echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni
+
+echo 420 lol | ./target/debug/kijetesantakaluotokieni
