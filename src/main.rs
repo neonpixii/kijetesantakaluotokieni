@@ -8,10 +8,8 @@ TO DO
 mod bubbles;
 mod critters;
 
-use std::cmp;
 use std::io;
 use std::io::Read;
-use voca_rs::*;
 
 fn main() {
     let mut text = String::new();
