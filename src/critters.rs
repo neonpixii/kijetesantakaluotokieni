@@ -1,10 +1,17 @@
 use voca_rs::*;
 
-pub struct Critter<'a> {
-    pub anchor: usize,
-    pub critter: &'a str,
+pub enum CritterName {
+    Kije,
+    Little,
+    File(String),
 }
 
+#[derive(Clone)]
+pub struct CritterTemplate {
+    pub anchor: usize,
+    pub critter: String,
+}
+#[derive(Clone)]
 pub struct CritterConfig {
     pub left_eye: String,
     pub right_eye: String,
@@ -15,54 +22,63 @@ pub struct CritterConfig {
     pub right_line: String,
     pub up_line: String,
     pub left_line: String,
+
+    pub template: CritterTemplate,
 }
 
-pub const KIJETESANTAKALU: Critter = Critter {
+const KIJETESANTAKALU: CritterTemplate = CritterTemplate {
     anchor: 14,
     critter: r"
              $6
       /__    $6
-     / $1$2\  $7
+     / $1$2\  $5
      |  |$3$4 
      |  |
- (III|\||",
+ (III|\||"
+        .to_string(),
 };
 
-pub const KIJETESANTAKALU_LITTLE: Critter = Critter {
+const KIJETESANTAKALU_LITTLE: CritterTemplate = CritterTemplate {
     anchor: 13,
     critter: r"
             $6
      /__    $6
     / $1$2\  $5
     |  |$3$4
-  (I|\||",
+  (I|\||"
+        .to_string(),
 };
 
-pub fn config_from_string(eyes: &str, tongue: &str, line: &str) -> CritterConfig {
-    let default_config = CritterConfig {
-        left_eye: String::from("."),
-        right_eye: String::from("."),
+const DEFAULT_CONFIG: CritterConfig = CritterConfig {
+    left_eye: String::from("."),
+    right_eye: String::from("."),
 
-        left_tongue: String::from(" "),
-        right_tongue: String::from(" "),
+    left_tongue: String::from(" "),
+    right_tongue: String::from(" "),
 
-        right_line: String::from("/"),
-        up_line: String::from("|"),
-        left_line: String::from("\\"),
-    };
+    right_line: String::from("/"),
+    up_line: String::from("|"),
+    left_line: String::from("\\"),
 
-    let (left_eye, right_eye);
-    let (left_tongue, right_tongue);
-    let (left_line, up_line, right_line);
+    template: KIJETESANTAKALU,
+};
+
+pub fn config_from_string(
+    eyes: Option<&str>,
+    tongue: Option<&str>,
+    line: Option<&str>,
+) -> CritterConfig {
+    let mut config = DEFAULT_CONFIG.clone();
 
     match count::count_graphemes(eyes) {
-        0 => (left_eye, right_eye) = (default_config.left_eye, default_config.right_eye),
+        0 => break,
+
         1 => (left_eye, right_eye) = (chop::grapheme_at(eyes, 0), chop::grapheme_at(eyes, 0)),
         _ => (left_eye, right_eye) = (chop::grapheme_at(eyes, 0), chop::grapheme_at(eyes, 1)),
     }
     match count::count_graphemes(tongue) {
         0 => {
-            (left_tongue, right_tongue) = (default_config.left_tongue, default_config.right_tongue)
+            (left_tongue, right_tongue) = (DEFAULT_CONFIG.left_tongue, DEFAULT_CONFIG.right_tongue)
         }
         1 => (left_tongue, right_tongue) = (chop::grapheme_at(tongue, 0), " ".to_string()),
         _ => {
@@ -73,23 +89,23 @@ pub fn config_from_string(eyes: &str, tongue: &str, line: &str) -> CritterConfig
     match count::count_graphemes(line) {
         0 => {
             (left_line, up_line, right_line) = (
-                default_config.left_line,
-                default_config.up_line,
-                default_config.right_line,
+                DEFAULT_CONFIG.left_line,
+                DEFAULT_CONFIG.up_line,
+                DEFAULT_CONFIG.right_line,
             )
         }
         1 => {
             (left_line, up_line, right_line) = (
                 chop::grapheme_at(line, 0),
-                default_config.up_line,
-                default_config.right_line,
+                DEFAULT_CONFIG.up_line,
+                DEFAULT_CONFIG.right_line,
             )
         }
         2 => {
             (left_line, up_line, right_line) = (
                 chop::grapheme_at(line, 0),
                 chop::grapheme_at(line, 1),
-                default_config.right_line,
+                DEFAULT_CONFIG.right_line,
             )
         }
         _ => {
@@ -100,17 +116,8 @@ pub fn config_from_string(eyes: &str, tongue: &str, line: &str) -> CritterConfig
             )
         }
     }
-    CritterConfig {
-        left_eye,
-        right_eye,
 
-        left_tongue,
-        right_tongue,
-
-        right_line,
-        up_line,
-        left_line,
-    }
+    return config;
 }
 
 pub fn format_critter(critter: &str, critter_config: CritterConfig) -> String {
