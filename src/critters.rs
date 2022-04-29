@@ -23,17 +23,20 @@ pub struct CritterConfig {
     pub up_line: String,
     pub left_line: String,
 
+    pub object: String,
+
     pub template: CritterTemplate,
 }
 
 impl CritterConfig {
     pub fn config_from_string(
-        eyes: Option<String>,
-        tongue: Option<String>,
-        line: Option<String>,
-        name: Option<String>,
+        eyes: &Option<String>,
+        tongue: &Option<String>,
+        line: &Option<String>,
+        object: &Option<String>,
+        name: &Option<String>,
     ) -> CritterConfig {
-        let kijetesantakalu: CritterTemplate = CritterTemplate {
+        let kijetesantakalu = CritterTemplate {
             anchor: 14,
             critter: r"
              $6
@@ -41,24 +44,32 @@ impl CritterConfig {
      / $1$2\  $5
      |  |$3$4 
      |  |
- (III|\||"
+ (III|\||  $0"
                 .to_string(),
         };
-
-        let kijetesantakalu_little: CritterTemplate = CritterTemplate {
+        let kijetesantakalu_little = CritterTemplate {
             anchor: 13,
             critter: r"
             $6
      /__    $6
     / $1$2\  $5
     |  |$3$4
-  (I|\||"
+  (I|\||  $0"
+                .to_string(),
+        };
+        let soweli = CritterTemplate {
+            anchor: 10,
+            critter: r"
+         $6
+   ___   $6
+    $1$2) $5
+  |||| $0"
                 .to_string(),
         };
 
         let default_config: CritterConfig = CritterConfig {
-            left_eye: String::from("."),
-            right_eye: String::from("."),
+            left_eye: String::from("o"),
+            right_eye: String::from("o"),
 
             left_tongue: String::from(" "),
             right_tongue: String::from(" "),
@@ -66,6 +77,8 @@ impl CritterConfig {
             right_line: String::from("/"),
             up_line: String::from("|"),
             left_line: String::from("\\"),
+
+            object: String::from(" "),
 
             template: kijetesantakalu,
         };
@@ -100,7 +113,13 @@ impl CritterConfig {
         if let Some(line) = line {
             match count::count_graphemes(&line) {
                 0 => (),
-                1 => config.right_line = chop::grapheme_at(&line, 0),
+                1 => {
+                    (config.right_line, config.up_line, config.left_line) = (
+                        chop::grapheme_at(&line, 0),
+                        chop::grapheme_at(&line, 0),
+                        chop::grapheme_at(&line, 0),
+                    )
+                }
                 2 => {
                     (config.right_line, config.up_line) =
                         (chop::grapheme_at(&line, 0), chop::grapheme_at(&line, 1))
@@ -114,11 +133,17 @@ impl CritterConfig {
                 }
             }
         }
-
+        if let Some(object) = object {
+            match count::count_graphemes(&object) {
+                0 => (),
+                _ => config.object = object.clone(),
+            }
+        }
         if let Some(name) = name {
             match name.as_str() {
                 "kijetesantakalu" => (),
                 "lili" => config.template = kijetesantakalu_little,
+                "soweli" => config.template = soweli,
                 _ => (),
             }
         }
@@ -136,6 +161,7 @@ impl CritterConfig {
             .replace("$4", &self.right_tongue)
             .replace("$5", &self.right_line)
             .replace("$6", &self.up_line)
-            .replace("$7", &self.left_line);
+            .replace("$7", &self.left_line)
+            .replace("$0", &self.object);
     }
 }
