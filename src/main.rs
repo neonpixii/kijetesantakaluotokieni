@@ -23,30 +23,45 @@ struct Args {
 
     #[clap(short, long)]
     palisa: Option<String>,
+
+    #[clap(short, long)]
+    nimi: Option<String>,
+
+    text: Vec<String>,
 }
+
+impl Args {
+    fn config_from_arguments(&self) -> critters::CritterConfig {
+        critters::CritterConfig::config_from_string(
+            self.lukin.clone(),
+            self.uta.clone(),
+            self.palisa.clone(),
+            self.nimi.clone(),
+        )
+    }
+}
+
 fn main() {
     let cli = Args::parse();
     let mut text = String::new();
-    let default_config = critters::config_from_string("", "", "");
+    let config = cli.config_from_arguments();
 
-    // io::stdin()
-    //     .read_to_string(&mut text)
-    //     .expect("failed to read input");
-
-    print!(
-        "{}",
-        bubbles::bubble_from_text(
-            &text,
-            critters::KIJETESANTAKALU.anchor,
-            DEFAULT_MAXIMUM_LINE_LENGTH
-        )
-    );
-    println!(
-        "{}",
-        critters::format_critter(critters::KIJETESANTAKALU_LITTLE.critter, default_config)
-    );
+    if !cli.text.is_empty() {
+        text = cli.text.join(" ")
+    } else {
+        io::stdin()
+            .read_to_string(&mut text)
+            .expect("failed to read input");
+    }
+    output(&text, config)
 }
 
-// functions for producing formatted text
+fn output(text: &str, config: critters::CritterConfig) -> () {
+    print!(
+        "{}",
+        bubbles::bubble_from_text(text, config.template.anchor, DEFAULT_MAXIMUM_LINE_LENGTH)
+    );
+    println!("{}", config.format_critter())
+}
 
 const DEFAULT_MAXIMUM_LINE_LENGTH: usize = 40;
