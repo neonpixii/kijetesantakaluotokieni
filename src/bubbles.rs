@@ -44,13 +44,25 @@ fn bubble_from_lines(lines: Vec<String>, min_length: usize) -> String {
             )
         }
         n => {
-            bubble_body.push_str(&format!("/ {:<line_length$} \\\n", lines[0]));
+            bubble_body.push_str(&manipulate::pad_left(
+                &format!("/ {} \\\n", lines[0]),
+                pad_length,
+                " ",
+            ));
             if n > 2 {
                 for i in 1..n - 1 {
-                    bubble_body.push_str(&format!("| {:<line_length$} |\n", lines[i]));
+                    bubble_body.push_str(&manipulate::pad_left(
+                        &format!("| {} |\n", lines[i]),
+                        pad_length,
+                        " ",
+                    ));
                 }
             }
-            bubble_body.push_str(&format!("\\ {:<line_length$} /\n", lines[n - 1]));
+            bubble_body.push_str(&manipulate::pad_left(
+                &format!("\\ {} /\n", lines[n - 1]),
+                pad_length,
+                " ",
+            ));
             return format!("{}{}{}", bubble_top, bubble_body, bubble_bottom);
         }
     }

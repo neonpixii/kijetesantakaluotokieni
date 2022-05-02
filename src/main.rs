@@ -3,6 +3,7 @@ TO DO
 - kijefiles
 - other aminals
 - pakala
+- pilin
 */
 
 mod bubbles;
@@ -28,7 +29,6 @@ fn main() {
             .expect("failed to read input");
     }
     output(&text, config);
-    println!("{}test{}", FourBit::BrightCyan.escape(false), kule::reset());
 }
 
 #[derive(Parser, Debug)]
