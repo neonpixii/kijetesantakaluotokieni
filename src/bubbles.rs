@@ -17,19 +17,20 @@ fn bubble_from_lines(lines: Vec<String>, min_length: usize) -> String {
 
     // let line_length = cmp::max(longest_length, min_length);
     let line_length = longest_length;
-    let pad_length = if longest_length < min_length {
+    let left_pad_length = if longest_length < min_length {
         min_length + (longest_length / 2) + 2
     } else {
         0
     };
+
     let bubble_top = manipulate::pad_left(
         &format!(" _{}_ \n", "_".repeat(line_length)),
-        pad_length,
+        left_pad_length,
         " ",
     );
     let bubble_bottom = manipulate::pad_left(
         &format!(" -{}-  ", "-".repeat(line_length)),
-        pad_length,
+        left_pad_length,
         " ",
     );
     let mut bubble_body = String::new();
@@ -39,28 +40,28 @@ fn bubble_from_lines(lines: Vec<String>, min_length: usize) -> String {
             return format!(
                 "{}{}{}",
                 bubble_top,
-                manipulate::pad_left(&format!("< {} >\n", lines[0]), pad_length, " "),
+                manipulate::pad_left(&format!("< {} >\n", lines[0]), left_pad_length, " "),
                 bubble_bottom
             )
         }
         n => {
             bubble_body.push_str(&manipulate::pad_left(
                 &format!("/ {} \\\n", lines[0]),
-                pad_length,
+                left_pad_length,
                 " ",
             ));
             if n > 2 {
                 for i in 1..n - 1 {
                     bubble_body.push_str(&manipulate::pad_left(
                         &format!("| {} |\n", lines[i]),
-                        pad_length,
+                        left_pad_length,
                         " ",
                     ));
                 }
             }
             bubble_body.push_str(&manipulate::pad_left(
                 &format!("\\ {} /\n", lines[n - 1]),
-                pad_length,
+                left_pad_length,
                 " ",
             ));
             return format!("{}{}{}", bubble_top, bubble_body, bubble_bottom);
