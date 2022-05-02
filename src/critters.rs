@@ -1,3 +1,4 @@
+use super::kule::*;
 use voca_rs::*;
 
 pub enum CritterName {
@@ -8,7 +9,15 @@ pub enum CritterName {
 
 #[derive(Clone)]
 pub struct CritterTemplate {
+    // text column where speech line joins speech bubble
     pub anchor: usize,
+    /* ascii art critter themself, with special optional formatting strings. all formatters render to one grapheme wide each unless otherwise stated
+        - $1$2 (left and right eyes)
+        - $3$4 (left and right tongue)
+        - $5$6$7 (forward leaning, upwards, and back leaning speech line)
+        - $8$9 (ansi escape formatting start and formatting stop markers; each renders to zero width)
+        - $0 object marker. defaults to a single space but can be as many graphemes as you want
+    */
     pub critter: String,
 }
 #[derive(Clone)]
@@ -25,45 +34,49 @@ pub struct CritterConfig {
 
     pub object: String,
 
+    pub format: String,
+
     pub template: CritterTemplate,
 }
 
 impl CritterConfig {
+    // tries to create a critter from relevant strings, falling back to sensible defaults where possible
     pub fn config_from_string(
         eyes: &Option<String>,
         tongue: &Option<String>,
         line: &Option<String>,
         object: &Option<String>,
+        format: &Option<String>,
         name: &Option<String>,
     ) -> CritterConfig {
         let kijetesantakalu = CritterTemplate {
             anchor: 14,
             critter: r"
-             $6
-      /__    $6
-     / $1$2\  $5
-     |  |$3$4 
-     |  |
- (III|\||  $0"
+$8             $9$6
+$8      /__    $9$6
+$8     / $1$2\  $9$5
+$8     |  |$3$4
+$8     |  |
+$8 (III|\||  $9$0"
                 .to_string(),
         };
         let kijetesantakalu_little = CritterTemplate {
             anchor: 13,
             critter: r"
-            $6
-     /__    $6
-    / $1$2\  $5
-    |  |$3$4
-  (I|\||  $0"
+$8            $9$6
+$8     /__    $9$6
+$8    / $1$2\  $9$5
+$8    |  |$3$4
+$8  (I|\||  $9$0"
                 .to_string(),
         };
         let soweli = CritterTemplate {
             anchor: 10,
             critter: r"
-         $6
-   ___   $6
-    $1$2) $5
-  |||| $0"
+$8         $9$6
+$8   ___   $9$6
+$8    $1$2) $9$5
+$8  |||| $9$0"
                 .to_string(),
         };
 
@@ -79,6 +92,8 @@ impl CritterConfig {
             left_line: String::from("\\"),
 
             object: String::from(" "),
+
+            format: reset(), // from kule
 
             template: kijetesantakalu,
         };
@@ -139,6 +154,9 @@ impl CritterConfig {
                 _ => config.object = object.clone(),
             }
         }
+        if let Some(format) = format {
+            config.format = format.to_string();
+        }
         if let Some(name) = name {
             match name.as_str() {
                 "kijetesantakalu" => (),
@@ -151,6 +169,7 @@ impl CritterConfig {
         return config;
     }
 
+    // gives a fully formatted version of the critter
     pub fn format_critter(&self) -> String {
         return self
             .template
@@ -162,6 +181,8 @@ impl CritterConfig {
             .replace("$5", &self.right_line)
             .replace("$6", &self.up_line)
             .replace("$7", &self.left_line)
+            .replace("$8", &self.format)
+            .replace("$9", &reset())
             .replace("$0", &self.object);
     }
 }
