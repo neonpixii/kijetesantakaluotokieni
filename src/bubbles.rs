@@ -1,70 +1,192 @@
 use voca_rs::*;
 
-pub fn bubble_from_text(text: &str, bubble_anchor: usize, max_length: usize) -> String {
-    bubble_from_lines(wrap_block(text, max_length), bubble_anchor)
+// carry's information about the anchor point for a bubble, what column to wrap words at, and what the bubbles border looks like
+pub struct BubbleConfig {
+    anchor: usize,
+    wrap: usize,
+
+    top: String,
+    left: String,
+    right: String,
+    bottom: String,
+    top_left: String,
+    top_right: String,
+    bottom_left: String,
+    bottom_right: String,
+    middle_left: String,
+    middle_right: String,
 }
 
-fn bubble_from_lines(lines: Vec<String>, min_length: usize) -> String {
-    let longest_length: usize;
-    let lengths: Vec<(&String, usize)> = lines
-        .iter()
-        .zip(lines.iter().map(|s| count::count_graphemes(s)))
-        .collect();
-    match lines.iter().map(|s| count::count_graphemes(s)).max() {
-        None => return "".to_string(),
-        Some(l) => longest_length = l,
-    };
+impl BubbleConfig {
+    // assembles a config from critical information, attempting to use sensible defaults where possible
+    pub fn config_from_string(anchor: usize, wrap: usize, border: Option<String>) -> BubbleConfig {
+        if let Some(border) = border {
+            let chars = split::graphemes(&border);
+            let top = if let Some(item) = chars.get(0) {
+                item.to_string()
+            } else {
+                // Some("") results in the default like None
+                return BubbleConfig {
+                    anchor,
+                    wrap,
 
-    // let line_length = cmp::max(longest_length, min_length);
-    let line_length = longest_length;
-    let left_pad_length = if longest_length < min_length {
-        min_length + (longest_length / 2) + 2
-    } else {
-        0
-    };
+                    top: "_".to_string(),
+                    left: "<".to_string(),
+                    right: ">".to_string(),
+                    bottom: "-".to_string(),
+                    top_left: "/".to_string(),
+                    top_right: "\\".to_string(),
+                    bottom_left: "\\".to_string(),
+                    bottom_right: "/".to_string(),
+                    middle_left: "|".to_string(),
+                    middle_right: "|".to_string(),
+                };
+            };
+            let left = if let Some(item) = chars.get(1) {
+                item.to_string()
+            } else {
+                top.clone()
+            };
+            let right = if let Some(item) = chars.get(2) {
+                item.to_string()
+            } else {
+                left.clone()
+            };
+            let bottom = if let Some(item) = chars.get(3) {
+                item.to_string()
+            } else {
+                top.clone()
+            };
+            let top_left = if let Some(item) = chars.get(4) {
+                item.to_string()
+            } else {
+                left.clone()
+            };
+            let top_right = if let Some(item) = chars.get(5) {
+                item.to_string()
+            } else {
+                right.clone()
+            };
+            let bottom_left = if let Some(item) = chars.get(6) {
+                item.to_string()
+            } else {
+                left.clone()
+            };
+            let bottom_right = if let Some(item) = chars.get(7) {
+                item.to_string()
+            } else {
+                right.clone()
+            };
+            let middle_left = if let Some(item) = chars.get(8) {
+                item.to_string()
+            } else {
+                left.clone()
+            };
+            let middle_right = if let Some(item) = chars.get(9) {
+                item.to_string()
+            } else {
+                right.clone()
+            };
+            BubbleConfig {
+                anchor,
+                wrap,
 
-    let bubble_top = manipulate::pad_left(
-        &format!(" _{}_ \n", "_".repeat(line_length)),
-        left_pad_length,
-        " ",
-    );
-    let bubble_bottom = manipulate::pad_left(
-        &format!(" -{}-  ", "-".repeat(line_length)),
-        left_pad_length,
-        " ",
-    );
-    let mut bubble_body = String::new();
-
-    match lines.len() {
-        1 => {
-            return format!(
-                "{}{}{}",
-                bubble_top,
-                manipulate::pad_left(&format!("< {} >\n", lines[0]), left_pad_length, " "),
-                bubble_bottom
-            )
-        }
-        n => {
-            bubble_body.push_str(&manipulate::pad_left(
-                &format!("/ {} \\\n", lines[0]),
-                left_pad_length,
-                " ",
-            ));
-            if n > 2 {
-                for i in 1..n - 1 {
-                    bubble_body.push_str(&manipulate::pad_left(
-                        &format!("| {} |\n", lines[i]),
-                        left_pad_length,
-                        " ",
-                    ));
-                }
+                top,
+                left,
+                right,
+                bottom,
+                top_left,
+                top_right,
+                bottom_left,
+                bottom_right,
+                middle_left,
+                middle_right,
             }
-            bubble_body.push_str(&manipulate::pad_left(
-                &format!("\\ {} /\n", lines[n - 1]),
-                left_pad_length,
-                " ",
-            ));
-            return format!("{}{}{}", bubble_top, bubble_body, bubble_bottom);
+        } else {
+            BubbleConfig {
+                anchor,
+                wrap,
+
+                top: "_".to_string(),
+                left: "<".to_string(),
+                right: ">".to_string(),
+                bottom: "-".to_string(),
+                top_left: "/".to_string(),
+                top_right: "\\".to_string(),
+                bottom_left: "\\".to_string(),
+                bottom_right: "/".to_string(),
+                middle_left: "|".to_string(),
+                middle_right: "|".to_string(),
+            }
+        }
+    }
+
+    pub fn text(&self, text: &str) -> String {
+        self.bubble_from_lines(wrap_block(text, self.wrap))
+    }
+
+    fn bubble_from_lines(&self, lines: Vec<String>) -> String {
+        let longest_length: usize;
+        let lengths: Vec<(&String, usize)> = lines
+            .iter()
+            .zip(lines.iter().map(|s| count::count_graphemes(s)))
+            .collect();
+        match lines.iter().map(|s| count::count_graphemes(s)).max() {
+            None => return "".to_string(),
+            Some(l) => longest_length = l,
+        };
+
+        // let line_length = cmp::max(longest_length, min_length);
+        let line_length = longest_length;
+        let left_pad_length = if longest_length < self.anchor {
+            self.anchor + (longest_length / 2) + 2
+        } else {
+            0
+        };
+
+        let bubble_top = manipulate::pad_left(
+            &format!(" _{}_ \n", "_".repeat(line_length)),
+            left_pad_length,
+            " ",
+        );
+        let bubble_bottom = manipulate::pad_left(
+            &format!(" -{}-  ", "-".repeat(line_length)),
+            left_pad_length,
+            " ",
+        );
+        let mut bubble_body = String::new();
+
+        match lines.len() {
+            1 => {
+                return format!(
+                    "{}{}{}",
+                    bubble_top,
+                    manipulate::pad_left(&format!("< {} >\n", lines[0]), left_pad_length, " "),
+                    bubble_bottom
+                )
+            }
+            n => {
+                bubble_body.push_str(&manipulate::pad_left(
+                    &format!("/ {} \\\n", lines[0]),
+                    left_pad_length,
+                    " ",
+                ));
+                if n > 2 {
+                    for i in 1..n - 1 {
+                        bubble_body.push_str(&manipulate::pad_left(
+                            &format!("| {} |\n", lines[i]),
+                            left_pad_length,
+                            " ",
+                        ));
+                    }
+                }
+                bubble_body.push_str(&manipulate::pad_left(
+                    &format!("\\ {} /\n", lines[n - 1]),
+                    left_pad_length,
+                    " ",
+                ));
+                return format!("{}{}{}", bubble_top, bubble_body, bubble_bottom);
+            }
         }
     }
 }

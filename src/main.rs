@@ -10,7 +10,9 @@ mod bubbles;
 mod critters;
 mod kule;
 
+use bubbles::*;
 use clap::Parser;
+use critters::*;
 use kule::Formats;
 use kule::FourBit;
 use std::io;
@@ -19,7 +21,7 @@ use voca_rs::*;
 fn main() {
     let cli = Args::parse();
     let mut text = String::new();
-    let config = cli.config_from_arguments();
+    let (critter_config, bubble_config) = cli.configs_from_arguments();
 
     if !cli.text.is_empty() {
         text = cli.text.join(" ")
@@ -28,7 +30,7 @@ fn main() {
             .read_to_string(&mut text)
             .expect("failed to read input");
     }
-    output(&text, config);
+    output(&text, critter_config, bubble_config);
 }
 
 #[derive(Parser, Debug)]
@@ -88,7 +90,7 @@ struct Args {
 }
 
 impl Args {
-    fn config_from_arguments(&self) -> critters::CritterConfig {
+    fn configs_from_arguments(&self) -> (CritterConfig, BubbleConfig) {
         let mut eyes = self.lukin.clone();
         let mut tongue = self.uta.clone();
         let mut line = self.palisa.clone();
@@ -182,23 +184,21 @@ impl Args {
                 _ => String::new(),
             })
         }
-        critters::CritterConfig::config_from_string(
-            &eyes,
-            &tongue,
-            &line,
-            &object,
-            &Some(format),
-            &name,
-        )
+        let critter_config =
+            CritterConfig::config_from_string(&eyes, &tongue, &line, &object, &Some(format), &name);
+        let bubble_config = BubbleConfig::config_from_string(
+            critter_config.template.anchor,
+            DEFAULT_MAXIMUM_LINE_LENGTH,
+            None,
+        );
+
+        (critter_config, bubble_config)
     }
 }
 
-fn output(text: &str, config: critters::CritterConfig) -> () {
-    print!(
-        "{}",
-        bubbles::bubble_from_text(text, config.template.anchor, DEFAULT_MAXIMUM_LINE_LENGTH)
-    );
-    println!("{}", config.format_critter())
+fn output(text: &str, critter_config: CritterConfig, bubble_config: BubbleConfig) -> () {
+    print!("{}", bubble_config.text(text));
+    println!("{}", critter_config.format_critter())
 }
 
 const DEFAULT_MAXIMUM_LINE_LENGTH: usize = 40;
