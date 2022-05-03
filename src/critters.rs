@@ -1,12 +1,7 @@
 use super::kule::*;
 use voca_rs::*;
 
-pub enum CritterName {
-    Kije,
-    Little,
-    File(String),
-}
-
+// represents inherent structural information about a critter
 #[derive(Clone)]
 pub struct CritterTemplate {
     // text column where speech line joins speech bubble
@@ -20,6 +15,8 @@ pub struct CritterTemplate {
     */
     pub critter: String,
 }
+
+// pairs a critter with formatting information for the optional formatting strings.
 #[derive(Clone)]
 pub struct CritterConfig {
     pub left_eye: String,
