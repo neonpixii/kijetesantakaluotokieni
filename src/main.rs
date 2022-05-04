@@ -189,7 +189,7 @@ impl Args {
         let bubble_config = BubbleConfig::config_from_string(
             critter_config.template.anchor,
             DEFAULT_MAXIMUM_LINE_LENGTH,
-            None,
+            Some("".to_string()),
         );
 
         (critter_config, bubble_config)

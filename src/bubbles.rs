@@ -42,6 +42,7 @@ impl BubbleConfig {
                     middle_right: "|".to_string(),
                 };
             };
+            //
             let left = if let Some(item) = chars.get(1) {
                 item.to_string()
             } else {
@@ -145,12 +146,22 @@ impl BubbleConfig {
         };
 
         let bubble_top = manipulate::pad_left(
-            &format!(" _{}_ \n", "_".repeat(line_length)),
+            &format!(
+                " {}{}{} \n",
+                self.top,
+                self.top.repeat(line_length),
+                self.top
+            ),
             left_pad_length,
             " ",
         );
         let bubble_bottom = manipulate::pad_left(
-            &format!(" -{}-  ", "-".repeat(line_length)),
+            &format!(
+                " {}{}{}  ",
+                self.bottom,
+                self.bottom.repeat(line_length),
+                self.bottom
+            ),
             left_pad_length,
             " ",
         );
@@ -161,27 +172,36 @@ impl BubbleConfig {
                 return format!(
                     "{}{}{}",
                     bubble_top,
-                    manipulate::pad_left(&format!("< {} >\n", lines[0]), left_pad_length, " "),
+                    manipulate::pad_left(
+                        &format!("{} {} {}\n", self.left, lines[0], self.right),
+                        left_pad_length,
+                        " "
+                    ),
                     bubble_bottom
                 )
             }
             n => {
                 bubble_body.push_str(&manipulate::pad_left(
-                    &format!("/ {} \\\n", lines[0]),
+                    &format!("{} {} {}\n", self.top_left, lines[0], self.top_right),
                     left_pad_length,
                     " ",
                 ));
                 if n > 2 {
                     for i in 1..n - 1 {
                         bubble_body.push_str(&manipulate::pad_left(
-                            &format!("| {} |\n", lines[i]),
+                            &format!("{} {} {}\n", self.middle_left, lines[i], self.middle_right),
                             left_pad_length,
                             " ",
                         ));
                     }
                 }
                 bubble_body.push_str(&manipulate::pad_left(
-                    &format!("\\ {} /\n", lines[n - 1]),
+                    &format!(
+                        "{} {} {}\n",
+                        self.bottom_left,
+                        lines[n - 1],
+                        self.bottom_right
+                    ),
                     left_pad_length,
                     " ",
                 ));
