@@ -103,9 +103,11 @@ impl Args {
         let mut eyes = self.lukin.clone();
         let mut tongue = self.uta.clone();
         let mut line = self.palisa.clone();
-        let mut object = self.ijo.clone();
+        let object = self.ijo.clone();
         let mut format = "".to_string();
-        let mut name = self.nimi.clone();
+        let name = self.nimi.clone();
+
+        let mut border = self.poki.clone();
 
         if self.ilo {
             eyes = Some("==".to_string());
@@ -125,6 +127,10 @@ impl Args {
             eyes = Some("OO".to_string());
         } else if self.lili {
             eyes = Some("..".to_string());
+        }
+        if self.pilin {
+            line = Some("oOo".to_string());
+            border = Some("_()-".to_string());
         }
         for i in &self.kule {
             let lower = query::is_lowercase(&i);
@@ -199,7 +205,7 @@ impl Args {
             critter_config.template.anchor,
             self.pakala,
             self.pakala_ala,
-            &self.poki,
+            &border,
         );
 
         (critter_config, bubble_config)
