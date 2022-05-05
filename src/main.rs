@@ -51,8 +51,8 @@ struct Args {
     #[clap(short = 'f', long)]
     nimi: Option<String>,
 
-    #[clap(short = 'W', long)]
-    pakala: Option<String>,
+    #[clap(short = 'W', long, default_value = "40")]
+    pakala: usize,
 
     #[clap(short = 'n', long)]
     pakala_ala: bool,
@@ -191,7 +191,7 @@ impl Args {
             CritterConfig::config_from_string(&eyes, &tongue, &line, &object, &Some(format), &name);
         let bubble_config = BubbleConfig::config_from_string(
             critter_config.template.anchor,
-            DEFAULT_MAXIMUM_LINE_LENGTH,
+            self.pakala,
             self.pakala_ala,
             None,
         );

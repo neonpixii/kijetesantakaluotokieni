@@ -1,11 +1,8 @@
 #!/usr/bin/fish
 
-echo 1234567890123456789012345678901234567890123456789012345678901234567890 | ./target/debug/kijetesantakaluotokieni
+echo 123456789\|123456789\|123456789\|123456789\|123456789\|123456789\|123456789\| | ./target/debug/kijetesantakaluotokieni
 
-echo -e "“Oh, you wicked little thing!” cried Alice, catching up the kitten, and giving it a little kiss to make it understand that it was in disgrace. “Really, Dinah ought to have taught you better manners!”\n\n“You ought, Dinah, you know you ought!” she added, looking reproachfully at the old cat, and speaking in as cross a voice as she could manage—and then she scrambled back into the arm-chair, taking the kitten and the worsted with her, and began winding up the ball again." | ./target/debug/kijetesantakaluotokieni
-
-
-#echo -e "'Oh, you wicked little thing!' cried Alice, catching up the kitten, and giving it a little kiss to make it understand that it was in disgrace. 'Really, Dinah ought to have taught you better manners!'\n\n'You ought, Dinah, you know you ought!' she added, looking reproachfully at the old cat, and speaking in as cross a voice as she could manage—and then she scrambled back into the arm-chair, taking the kitten and the worsted with her, and began winding up the ball again." | ./target/debug/kijetesantakaluotokieni
+echo 123456789\|123456789\|123456789\|123456789\|123456789\|123456789\|123456789\| | ./target/debug/kijetesantakaluotokieni --pakala 60
 
 echo "Белеет парус одинокий 
 В тумане моря голубом!.. 
@@ -22,7 +19,9 @@ echo | ./target/debug/kijetesantakaluotokieni
 echo mu | ./target/debug/kijetesantakaluotokieni
 
 echo 1234567890123 | ./target/debug/kijetesantakaluotokieni
-
+echo 12345678901234 | ./target/debug/kijetesantakaluotokieni
 echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni
+
+figlet the nineties | ./target/debug/kijetesantakaluotokieni --pakala-ala
 
 echo 420 lol | ./target/debug/kijetesantakaluotokieni
