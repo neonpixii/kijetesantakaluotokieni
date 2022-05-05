@@ -1,4 +1,5 @@
 #!/usr/bin/fish
+cargo build
 
 echo 123456789\|123456789\|123456789\|123456789\|123456789\|123456789\|123456789\| | ./target/debug/kijetesantakaluotokieni
 
@@ -12,7 +13,7 @@ echo "Белеет парус одинокий
 A lonely sail is flashing white
 Amdist the blue mist of the sea!...
 What does it seek in foreign lands?
-What did it leave behind at home?.." | ./target/debug/kijetesantakaluotokieni
+What did it leave behind at home?.." | ./target/debug/kijetesantakaluotokieni --poki "~3Ew/\\\\/"
 
 echo | ./target/debug/kijetesantakaluotokieni
 
@@ -22,6 +23,6 @@ echo 1234567890123 | ./target/debug/kijetesantakaluotokieni
 echo 12345678901234 | ./target/debug/kijetesantakaluotokieni
 echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni
 
-figlet the nineties | ./target/debug/kijetesantakaluotokieni --pakala-ala
+figlet the twenties | ./target/debug/kijetesantakaluotokieni --pakala-ala --poki ~\<\>~✨🌟🌠💫
 
 echo 420 lol | ./target/debug/kijetesantakaluotokieni
