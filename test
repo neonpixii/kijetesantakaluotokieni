@@ -17,12 +17,10 @@ What did it leave behind at home?.." | ./target/debug/kijetesantakaluotokieni --
 
 echo | ./target/debug/kijetesantakaluotokieni
 
-echo mu | ./target/debug/kijetesantakaluotokieni
+echo mu | ./target/debug/kijetesantakaluotokieni --nimi soweli 
 
 echo 1234567890123 | ./target/debug/kijetesantakaluotokieni
 echo 12345678901234 | ./target/debug/kijetesantakaluotokieni
-echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni
+echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni --pilin --kule unu  --kule suli --nimi lili 
 
-figlet the twenties | ./target/debug/kijetesantakaluotokieni --pakala-ala --poki ~\<\>~✨🌟🌠💫
-
-echo 420 lol | ./target/debug/kijetesantakaluotokieni
+figlet the nineties | ./target/debug/kijetesantakaluotokieni --pakala-ala

@@ -2,8 +2,6 @@
 TO DO
 - kijefiles
 - other aminals
-- pakala
-- pilin
 */
 
 mod bubbles;
