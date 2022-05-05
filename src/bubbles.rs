@@ -122,23 +122,19 @@ impl BubbleConfig {
         }
     }
 
-    pub fn text(&self, text: &str) -> String {
-        self.bubble_from_lines(wrap_block(text, self.wrap))
+    // front end to bubble_from_lines which takes normal text.
+    pub fn bubble_from_text(&self, text: &str) -> String {
+        self.bubble_from_lines(&wrap_block(text, self.wrap))
     }
 
-    fn bubble_from_lines(&self, lines: Vec<String>) -> String {
+    // generates a bubble (doesn't end in newline) using a vector of strings as lines.
+    fn bubble_from_lines(&self, lines: &Vec<String>) -> String {
         let longest_length: usize;
-        let lengths: Vec<(&String, usize)> = lines
-            .iter()
-            .zip(lines.iter().map(|s| count::count_graphemes(s)))
-            .collect();
         match lines.iter().map(|s| count::count_graphemes(s)).max() {
             None => return "".to_string(),
             Some(l) => longest_length = l,
         };
 
-        // let line_length = cmp::max(longest_length, min_length);
-        let line_length = longest_length;
         let left_pad_length = if longest_length < self.anchor {
             self.anchor + (longest_length / 2) + 2
         } else {
@@ -146,68 +142,46 @@ impl BubbleConfig {
         };
 
         let bubble_top = manipulate::pad_left(
-            &format!(
-                " {}{}{} \n",
-                self.top,
-                self.top.repeat(line_length),
-                self.top
-            ),
+            &format!(" {} \n", self.top.repeat(longest_length + 2),),
             left_pad_length,
             " ",
         );
         let bubble_bottom = manipulate::pad_left(
-            &format!(
-                " {}{}{}  ",
-                self.bottom,
-                self.bottom.repeat(line_length),
-                self.bottom
-            ),
+            &format!(" {}  ", self.bottom.repeat(longest_length + 2),),
             left_pad_length,
             " ",
         );
         let mut bubble_body = String::new();
-
         match lines.len() {
-            1 => {
-                return format!(
-                    "{}{}{}",
-                    bubble_top,
-                    manipulate::pad_left(
-                        &format!("{} {} {}\n", self.left, lines[0], self.right),
-                        left_pad_length,
-                        " "
-                    ),
-                    bubble_bottom
-                )
-            }
+            1 => bubble_body.push_str(&manipulate::pad_left(
+                &format!("{} {} {}\n", self.left, lines[0], self.right),
+                left_pad_length,
+                " ",
+            )),
             n => {
-                bubble_body.push_str(&manipulate::pad_left(
-                    &format!("{} {} {}\n", self.top_left, lines[0], self.top_right),
-                    left_pad_length,
-                    " ",
-                ));
-                if n > 2 {
-                    for i in 1..n - 1 {
-                        bubble_body.push_str(&manipulate::pad_left(
-                            &format!("{} {} {}\n", self.middle_left, lines[i], self.middle_right),
-                            left_pad_length,
-                            " ",
-                        ));
-                    }
+                for (i, line) in lines.iter().enumerate() {
+                    let (left, right) = if i == 0 {
+                        (self.top_left.clone(), self.top_right.clone())
+                    } else if i == n - 1 {
+                        (self.bottom_left.clone(), self.bottom_right.clone())
+                    } else {
+                        (self.middle_left.clone(), self.middle_right.clone())
+                    };
+                    bubble_body.push_str(&manipulate::pad_left(
+                        &format!(
+                            "{} {}{} {}\n",
+                            left,
+                            line,
+                            " ".repeat(longest_length - count::count_graphemes(&line)),
+                            right
+                        ),
+                        left_pad_length,
+                        " ",
+                    ));
                 }
-                bubble_body.push_str(&manipulate::pad_left(
-                    &format!(
-                        "{} {} {}\n",
-                        self.bottom_left,
-                        lines[n - 1],
-                        self.bottom_right
-                    ),
-                    left_pad_length,
-                    " ",
-                ));
-                return format!("{}{}{}", bubble_top, bubble_body, bubble_bottom);
             }
         }
+        return format!("{}{}{}", bubble_top, bubble_body, bubble_bottom);
     }
 }
 
