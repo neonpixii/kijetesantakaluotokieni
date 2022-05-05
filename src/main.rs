@@ -16,6 +16,7 @@ use kule::FourBit;
 use std::io;
 use std::io::Read;
 use voca_rs::*;
+
 fn main() {
     let cli = Args::parse();
     let mut text = String::new();
@@ -34,34 +35,39 @@ fn main() {
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
-    #[clap(short = 'e', long)]
+    #[clap(short = 'e', long, help = "o ante e sitelen lukin")]
     lukin: Option<String>,
 
-    #[clap(short = 'T', long)]
+    #[clap(short = 'T', long, help = "o pana e uta tawa kijetesantakalu")]
     uta: Option<String>,
 
-    #[clap(short = 'o', long)]
+    #[clap(short = 'o', long, help = "o pana e ijo tawa kijetesantakalu")]
     ijo: Option<String>,
 
-    #[clap(short = 'i', long)]
+    #[clap(short = 'i', long, help = "o ante e palisa pi poki toki")]
     palisa: Option<String>,
 
-    #[clap(short = 'u', long)]
+    #[clap(short = 'u', long, help = "o ante e poki toki")]
     poki: Option<String>,
 
-    #[clap(short = 'f', long)]
+    #[clap(short = 'f', long, help = "o kepeken sijelo ante")]
     nimi: Option<String>,
 
-    #[clap(short = 'W', long, default_value = "40")]
+    #[clap(
+        short = 'W',
+        long,
+        default_value = "40",
+        help = "o pakala e toki lon sitelen nanpa ni"
+    )]
     pakala: usize,
 
-    #[clap(short = 'n', long)]
+    #[clap(short = 'n', long, help = "o pakala ala e toki")]
     pakala_ala: bool,
 
-    #[clap(short = 'k', long)]
+    #[clap(short = 'k', long, help = "o ante e kule kijetesantakalu")]
     kule: Vec<String>,
 
-    #[clap(short = 'l', long)]
+    #[clap(short = 'l', long, help = "FINISH sijelo seme li lon?")]
     seme: bool,
 
     // implementation of classic cowsay flags
