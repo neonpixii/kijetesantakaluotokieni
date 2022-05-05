@@ -127,6 +127,8 @@ impl Args {
             tongue = Some("U".to_string());
         } else if self.lape {
             eyes = Some("--".to_string());
+            line = Some("zZz".to_string());
+            border = Some("_()-".to_string());
         } else if self.wawa {
             eyes = Some("OO".to_string());
         } else if self.lili {
