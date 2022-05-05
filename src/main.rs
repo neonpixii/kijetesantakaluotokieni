@@ -45,8 +45,11 @@ struct Args {
     #[clap(short = 'o', long)]
     ijo: Option<String>,
 
-    #[clap(long)]
+    #[clap(short = 'i', long)]
     palisa: Option<String>,
+
+    #[clap(short = 'u', long)]
+    poki: Option<String>,
 
     #[clap(short = 'f', long)]
     nimi: Option<String>,
@@ -59,6 +62,9 @@ struct Args {
 
     #[clap(short = 'k', long)]
     kule: Vec<String>,
+
+    #[clap(short = 'l', long)]
+    seme: bool,
 
     // implementation of classic cowsay flags
     #[clap(short = 'b', long)]
@@ -85,7 +91,7 @@ struct Args {
     #[clap(short = 'y', long)]
     lili: bool,
 
-    #[clap(long)]
+    #[clap(short = 'I', long)]
     pilin: bool,
 
     // optional text input
@@ -193,7 +199,7 @@ impl Args {
             critter_config.template.anchor,
             self.pakala,
             self.pakala_ala,
-            None,
+            &self.poki,
         );
 
         (critter_config, bubble_config)
@@ -204,5 +210,3 @@ fn output(text: &str, critter_config: CritterConfig, bubble_config: BubbleConfig
     print!("{}", bubble_config.bubble_from_text(text));
     println!("{}", critter_config.format_critter())
 }
-
-const DEFAULT_MAXIMUM_LINE_LENGTH: usize = 40;

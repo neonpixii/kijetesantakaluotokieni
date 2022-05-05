@@ -24,7 +24,7 @@ impl BubbleConfig {
         anchor: usize,
         wrap: usize,
         no_wrap: bool,
-        border: Option<String>,
+        border: &Option<String>,
     ) -> BubbleConfig {
         if let Some(border) = border {
             let chars = split::graphemes(&border);
