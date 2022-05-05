@@ -1,4 +1,6 @@
 use super::kule::*;
+use std::fs;
+use std::io;
 use voca_rs::*;
 
 // represents inherent structural information about a critter
@@ -45,11 +47,10 @@ impl CritterConfig {
         object: &Option<String>,
         format: &Option<String>,
         name: &Option<String>,
-    ) -> CritterConfig {
+    ) -> Result<CritterConfig, String> {
         let kijetesantakalu = CritterTemplate {
             anchor: 14,
-            critter: r"
-$8             $9$6
+            critter: r"$8             $9$6
 $8      /__    $9$6
 $8     / $1$2\  $9$5
 $8     |  |$3$4
@@ -59,8 +60,7 @@ $8 (III|\||  $9$0"
         };
         let kijetesantakalu_little = CritterTemplate {
             anchor: 13,
-            critter: r"
-$8            $9$6
+            critter: r"$8            $9$6
 $8     /__    $9$6
 $8    / $1$2\  $9$5
 $8    |  |$3$4
@@ -69,8 +69,7 @@ $8  (I|\||  $9$0"
         };
         let soweli = CritterTemplate {
             anchor: 10,
-            critter: r"
-$8         $9$6
+            critter: r"$8         $9$6
 $8   ___   $9$6
 $8    $1$2) $9$5
 $8  |||| $9$0"
@@ -159,11 +158,11 @@ $8  |||| $9$0"
                 "kijetesantakalu" => (),
                 "lili" => config.template = kijetesantakalu_little,
                 "soweli" => config.template = soweli,
-                _ => (),
+                name => config.template = template_from_file(&name)?,
             }
         }
 
-        return config;
+        return Ok(config);
     }
 
     // gives a fully formatted version of the critter
@@ -182,4 +181,25 @@ $8  |||| $9$0"
             .replace("$9", &reset())
             .replace("$0", &self.object);
     }
+}
+
+// attempts to interpret file as a path, and if this fails, tries appending it to every location in the kijepath environment variable.
+pub fn template_from_file(name: &str) -> Result<CritterTemplate, &str> {
+    let file = fs::read_to_string(name)
+        .map_err(|_| "mi ken ala lukin e lipu kije\ncouldn't find/read kijefile")?;
+    let mut lines = file.lines().skip_while(|l| l.starts_with('#')); // skips comments
+
+    let anchor: usize;
+    if let Some(anchor_line) = lines.next() {
+        anchor = anchor_line
+            .trim()
+            .parse()
+            .map_err(|_| "nanpa li nasa\ncouldn't parse anchor as number")?;
+    } else {
+        return Err("ale li weka tan lipu kije\nkijefile missing content");
+    }
+    let mut critter = String::new();
+    lines.for_each(|l| critter.push_str(&format!("{}\n", l)));
+
+    Ok(CritterTemplate { anchor, critter })
 }

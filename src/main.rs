@@ -21,8 +21,16 @@ use voca_rs::*;
 fn main() {
     let cli = Args::parse();
     let mut text = String::new();
-    let (critter_config, bubble_config) = cli.configs_from_arguments();
-
+    let (critter_config, bubble_config);
+    match cli.configs_from_arguments() {
+        Err(s) => {
+            println!("pakala a!\n{}", s);
+            return;
+        }
+        Ok((c, b)) => {
+            (critter_config, bubble_config) = (c, b);
+        }
+    }
     if !cli.text.is_empty() {
         text = cli.text.join(" ")
     } else {
@@ -104,7 +112,7 @@ struct Args {
 }
 
 impl Args {
-    fn configs_from_arguments(&self) -> (CritterConfig, BubbleConfig) {
+    fn configs_from_arguments(&self) -> Result<(CritterConfig, BubbleConfig), String> {
         let mut eyes = self.lukin.clone();
         let mut tongue = self.uta.clone();
         let mut line = self.palisa.clone();
@@ -206,8 +214,14 @@ impl Args {
                 _ => String::new(),
             })
         }
-        let critter_config =
-            CritterConfig::config_from_string(&eyes, &tongue, &line, &object, &Some(format), &name);
+        let critter_config = CritterConfig::config_from_string(
+            &eyes,
+            &tongue,
+            &line,
+            &object,
+            &Some(format),
+            &name,
+        )?;
         let bubble_config = BubbleConfig::config_from_string(
             critter_config.template.anchor,
             self.pakala,
@@ -215,7 +229,7 @@ impl Args {
             &border,
         );
 
-        (critter_config, bubble_config)
+        Ok((critter_config, bubble_config))
     }
 }
 
