@@ -160,7 +160,7 @@ impl BubbleConfig {
             " ",
         );
         let bubble_bottom = manipulate::pad_left(
-            &format!(" {}  ", self.bottom.repeat(longest_length + 2),),
+            &format!(" {} ", self.bottom.repeat(longest_length + 2),),
             left_pad_length,
             " ",
         );

@@ -19,7 +19,7 @@ echo | ./target/debug/kijetesantakaluotokieni
 
 echo mu | ./target/debug/kijetesantakaluotokieni --nimi soweli 
 
-echo 1234567890123 | ./target/debug/kijetesantakaluotokieni --lape 
+echo mi wile e supa lape   | ./target/debug/kijetesantakaluotokieni --lape 
 echo 12345678901234 | ./target/debug/kijetesantakaluotokieni
 echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni --pilin --kule unu  --kule suli --nimi lili 
 
