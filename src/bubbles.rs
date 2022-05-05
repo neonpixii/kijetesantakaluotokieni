@@ -4,6 +4,7 @@ use voca_rs::*;
 pub struct BubbleConfig {
     anchor: usize,
     wrap: usize,
+    no_wrap: bool,
 
     top: String,
     left: String,
@@ -19,7 +20,12 @@ pub struct BubbleConfig {
 
 impl BubbleConfig {
     // assembles a config from critical information, attempting to use sensible defaults where possible
-    pub fn config_from_string(anchor: usize, wrap: usize, border: Option<String>) -> BubbleConfig {
+    pub fn config_from_string(
+        anchor: usize,
+        wrap: usize,
+        no_wrap: bool,
+        border: Option<String>,
+    ) -> BubbleConfig {
         if let Some(border) = border {
             let chars = split::graphemes(&border);
             let top = if let Some(item) = chars.get(0) {
@@ -29,6 +35,7 @@ impl BubbleConfig {
                 return BubbleConfig {
                     anchor,
                     wrap,
+                    no_wrap,
 
                     top: "_".to_string(),
                     left: "<".to_string(),
@@ -91,6 +98,7 @@ impl BubbleConfig {
             BubbleConfig {
                 anchor,
                 wrap,
+                no_wrap,
 
                 top,
                 left,
@@ -107,6 +115,7 @@ impl BubbleConfig {
             BubbleConfig {
                 anchor,
                 wrap,
+                no_wrap,
 
                 top: "_".to_string(),
                 left: "<".to_string(),
@@ -124,7 +133,11 @@ impl BubbleConfig {
 
     // front end to bubble_from_lines which takes normal text.
     pub fn bubble_from_text(&self, text: &str) -> String {
-        self.bubble_from_lines(&wrap_block(text, self.wrap))
+        if self.no_wrap {
+            self.bubble_from_lines(&text.lines().map(|s| s.to_string()).collect())
+        } else {
+            self.bubble_from_lines(&wrap_block(text, self.wrap))
+        }
     }
 
     // generates a bubble (doesn't end in newline) using a vector of strings as lines.
@@ -185,6 +198,7 @@ impl BubbleConfig {
     }
 }
 
+// "breaks off" a wrapped line of text and returns it with the rests of the text.
 fn wrap_once(text: &str, max_length: usize) -> (String, Option<String>) {
     let whitespace_not_newline = |c: char| c.is_whitespace() && c != '\n';
     let mut length: usize = 0;

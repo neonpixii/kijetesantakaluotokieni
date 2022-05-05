@@ -54,6 +54,9 @@ struct Args {
     #[clap(short = 'W', long)]
     pakala: Option<String>,
 
+    #[clap(short = 'n', long)]
+    pakala_ala: bool,
+
     #[clap(short = 'k', long)]
     kule: Vec<String>,
 
@@ -189,6 +192,7 @@ impl Args {
         let bubble_config = BubbleConfig::config_from_string(
             critter_config.template.anchor,
             DEFAULT_MAXIMUM_LINE_LENGTH,
+            self.pakala_ala,
             None,
         );
 
