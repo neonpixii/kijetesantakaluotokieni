@@ -1,4 +1,5 @@
 use super::kule::*;
+use std::env;
 use std::fs;
 use std::io;
 use voca_rs::*;
@@ -158,7 +159,7 @@ $8  |||| $9$0"
                 "kijetesantakalu" => (),
                 "lili" => config.template = kijetesantakalu_little,
                 "soweli" => config.template = soweli,
-                name => config.template = template_from_file(&name)?,
+                name => config.template = CritterConfig::template_from_file(&name)?,
             }
         }
 
@@ -181,25 +182,65 @@ $8  |||| $9$0"
             .replace("$9", &reset())
             .replace("$0", &self.object);
     }
+    // attempts to interpret file as a path, and if this fails, tries appending it to every location in the kijepath environment variable.
+    fn template_from_file(name: &str) -> Result<CritterTemplate, &str> {
+        let file = fs::read_to_string(name)
+            .map_err(|_| "mi ken ala lukin e lipu kije\ncouldn't find/read kijefile")?;
+        let mut lines = file.lines().skip_while(|l| l.starts_with('#')); // skips comments
+
+        let anchor: usize;
+        if let Some(anchor_line) = lines.next() {
+            anchor = anchor_line
+                .trim()
+                .parse()
+                .map_err(|_| "nanpa li nasa\ncouldn't parse anchor as number")?;
+        } else {
+            return Err("ale li weka tan lipu kije\nkijefile missing content");
+        }
+        let mut critter = String::new();
+        lines.for_each(|l| critter.push_str(&format!("{}\n", l)));
+
+        Ok(CritterTemplate { anchor, critter })
+    }
 }
 
-// attempts to interpret file as a path, and if this fails, tries appending it to every location in the kijepath environment variable.
-pub fn template_from_file(name: &str) -> Result<CritterTemplate, &str> {
-    let file = fs::read_to_string(name)
-        .map_err(|_| "mi ken ala lukin e lipu kije\ncouldn't find/read kijefile")?;
-    let mut lines = file.lines().skip_while(|l| l.starts_with('#')); // skips comments
-
-    let anchor: usize;
-    if let Some(anchor_line) = lines.next() {
-        anchor = anchor_line
-            .trim()
-            .parse()
-            .map_err(|_| "nanpa li nasa\ncouldn't parse anchor as number")?;
-    } else {
-        return Err("ale li weka tan lipu kije\nkijefile missing content");
+fn path() -> Vec<String> {
+    match env::var("NASINKIJE") {
+        Err(_) => Vec::new(),
+        Ok(s) => s.split(":").map(|s| s.to_string()).collect(),
     }
-    let mut critter = String::new();
-    lines.for_each(|l| critter.push_str(&format!("{}\n", l)));
+}
 
-    Ok(CritterTemplate { anchor, critter })
+fn list_files() -> Result<Vec<String>, String> {
+    let mut files = Vec::new();
+
+    for i in path() {
+        match fs::read_dir(&i) {
+            Err(e) => match e.kind() {
+                io::ErrorKind::PermissionDenied => {
+                    return Err(
+                        format!("mi ken ala lukin e poki ni: {}\npermission denied", i).to_string(),
+                    )
+                }
+                io::ErrorKind::NotFound => {
+                    return Err(format!(
+                        "poki ni li lon ala: {}\ndirectory not found",
+                        i.to_string()
+                    ))
+                }
+                _ => return Err(format!("ijo li pakala lon ni: {}\n{:?}", i, e.kind()).to_string()),
+            },
+            Ok(entries) => {
+                for read in entries {
+                    let filename = read
+                        .map_err(|e|format!("mi ken ala lukin e lipu lon ni: {}\n{}", i, e.to_string()).to_string())?
+                        .file_name()
+                        .into_string()
+                        .map_err(|_|format!("mi ken ala sitelen UTF-8 e nimi lipu lon ni: {}\ncould not display file name as utf-8", i).to_string())?;
+                    files.push(filename);
+                }
+            }
+        }
+    }
+    return Ok(files);
 }
