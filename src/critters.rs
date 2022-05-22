@@ -9,6 +9,10 @@ use voca_rs::*;
 pub struct CritterTemplate {
     // text column where speech line joins speech bubble
     pub anchor: usize,
+    pub default_left_eye: String,
+    pub default_right_eye: String,
+    pub default_left_tongue: String,
+    pub default_right_tongue: String,
     /* ascii art critter themself, with special optional formatting strings. all formatters render to one grapheme wide each unless otherwise stated
         - $1$2 (left and right eyes)
         - $3$4 (left and right tongue)
@@ -49,40 +53,226 @@ impl CritterConfig {
         format: &Option<String>,
         name: &Option<String>,
     ) -> Result<CritterConfig, String> {
-        let kijetesantakalu = CritterTemplate {
-            anchor: 14,
-            critter: r"$8             $9$6
+        let template: CritterTemplate;
+        if let Some(name) = name {
+            template = match name.as_str() {
+                // when you add a new hardcoded value here, also add it in list_files
+                "kijetesantakalu" => CritterTemplate {
+                    anchor: 14,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"             $6
 $8      /__    $9$6
 $8     / $1$2\  $9$5
 $8     |  |$3$4
 $8     |  |
 $8 (III|\||  $9$0"
-                .to_string(),
-        };
-        let kijetesantakalu_little = CritterTemplate {
-            anchor: 13,
-            critter: r"$8            $9$6
+                        .to_string(),
+                },
+                "lili" => CritterTemplate {
+                    anchor: 13,
+                    default_left_eye: "o".to_string(),
+                    default_right_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+
+                    critter: r"            $6
 $8     /__    $9$6
 $8    / $1$2\  $9$5
 $8    |  |$3$4
 $8  (I|\||  $9$0"
-                .to_string(),
-        };
-        let soweli = CritterTemplate {
-            anchor: 10,
-            critter: r"$8         $9$6
+                        .to_string(),
+                },
+                "soweli" => CritterTemplate {
+                    anchor: 10,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"         $6
 $8   ___   $9$6
 $8    $1$2) $9$5
 $8  |||| $9$0"
-                .to_string(),
-        };
+                        .to_string(),
+                },
+                "soweli-a" => CritterTemplate {
+                    anchor: 10,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"        $5
+$8   ___ ,
+$8    $1$2)-
+$8  |||| `$9$0"
+                        .to_string(),
+                },
+                "waso" => CritterTemplate {
+                    anchor: 9,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"        $6
+$8  \     $9$6
+$8 $1$2\    $9$6
+$8  __\  $9$5
+$8 |$3$4
+$8 |   $9$0"
+                        .to_string(),
+                },
+                "kala" => CritterTemplate {
+                    anchor: 14,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"             $6
+$8 _   ___     $9$6
+$8  -_- $1$2-_  $9$5
+$8 _--_ $4$3_-
+$8     ---  $9$0"
+                        .to_string(),
+                },
+                "pipi" => CritterTemplate {
+                    anchor: 10,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"$8   $4     $9$6
+$8  $1$3$2   $9$5
+$8  _|_   
+$8  _|_
+$8  _|_
+$8   |   $9$0"
+                        .to_string(),
+                },
+                "akesi" => CritterTemplate {
+                    anchor: 11,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: "_".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"    $4     $6
+$8   $1$3$2   $9$5
+$8  _/_\_   
+$8   | |
+$8  -|-|-
+$8    V   $9$0"
+                        .to_string(),
+                },
+                "soko" => CritterTemplate {
+                    anchor: 13,
+                    default_right_eye: "_".to_string(),
+                    default_left_eye: "_".to_string(),
+                    default_left_tongue: "|".to_string(),
+                    default_right_tongue: "|".to_string(),
+                    critter: r"            $6
+$8    _--_    $9$6
+$8   (_$1$2_)  $9$5
+$8     $3$4
+$8     ||
+$8     ||  $9$0"
+                        .to_string(),
+                },
+                "kasi" => CritterTemplate {
+                    anchor: 14,
+                    default_right_eye: "_".to_string(),
+                    default_left_eye: "_".to_string(),
+                    default_left_tongue: "|".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"             $6
+$8        _    $9$6
+$8  _    ($2)  $9$5
+$8 ($1)$4 /    
+$8    \$3
+$8     |
+$8     |  $9$0"
+                        .to_string(),
+                },
+                "toki-pona" => CritterTemplate {
+                    anchor: 14,
+                    default_right_eye: " ".to_string(),
+                    default_left_eye: " ".to_string(),
+                    default_left_tongue: "-".to_string(),
+                    default_right_tongue: "´".to_string(),
+                    critter: r"             $6
+$8   \ | /     $9$6
+$8   _---_     $9$6
+$8  - $1 $2 -   $9$5
+$8  -     -
+$8  - `$3$4 - 
+$8   `---´   $9$0"
+                        .to_string(),
+                },
+                "mu" => CritterTemplate {
+                    anchor: 14,
+                    default_right_eye: " ".to_string(),
+                    default_left_eye: " ".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: ".".to_string(),
+                    critter: r"             $9$6
+$8  ()_---_()  $9$6
+$8   -     -  $9$5
+$8   - $1$4$2 -
+$8   -   $3 -
+$8    `---´   $9$0"
+                        .to_string(),
+                },
+                "mani" => CritterTemplate {
+                    anchor: 13,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: "_".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"            $6
+$8  (_---_)   $9$6
+$8  -     -  $9$6
+$8  - $1$4$2 -
+$8  -  $3  -
+$8   `---´   $9$0"
+                        .to_string(),
+                },
+                "mani-majuna" => CritterTemplate {
+                    anchor: 9,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"        $9$7   $8^__^
+         $9$7  $8($1$2)\_______
+            $8(__)\       )\/\
+             $8$3$4 ||----w |
+            $9$0$8   ||     ||$9"
+                        .to_string(),
+                },
+                name => CritterConfig::template_from_file(&name)?,
+            }
+        } else {
+            template = CritterTemplate {
+                anchor: 14,
+                default_right_eye: "o".to_string(),
+                default_left_eye: "o".to_string(),
+                default_left_tongue: " ".to_string(),
+                default_right_tongue: " ".to_string(),
+                critter: r"             $6
+$8      /__    $9$6
+$8     / $1$2\  $9$5
+$8     |  |$3$4
+$8     |  |
+$8 (III|\||  $9$0"
+                    .to_string(),
+            }
+        }
+        let mut config = CritterConfig {
+            left_eye: template.default_left_eye.clone(),
+            right_eye: template.default_right_eye.clone(),
 
-        let default_config: CritterConfig = CritterConfig {
-            left_eye: String::from("o"),
-            right_eye: String::from("o"),
-
-            left_tongue: String::from(" "),
-            right_tongue: String::from(" "),
+            left_tongue: template.default_left_tongue.clone(),
+            right_tongue: template.default_right_tongue.clone(),
 
             right_line: String::from("/"),
             up_line: String::from("|"),
@@ -92,13 +282,16 @@ $8  |||| $9$0"
 
             format: reset(), // from kule
 
-            template: kijetesantakalu,
+            template: template,
         };
-
-        let mut config = default_config.clone();
         if let Some(eyes) = eyes {
             match count::count_graphemes(&eyes) {
-                0 => (),
+                0 => {
+                    (config.left_eye, config.right_eye) = (
+                        config.template.default_left_eye.clone(),
+                        config.template.default_right_eye.clone(),
+                    )
+                }
                 1 => {
                     (config.left_eye, config.right_eye) =
                         (chop::grapheme_at(&eyes, 0), chop::grapheme_at(&eyes, 0))
@@ -111,18 +304,24 @@ $8  |||| $9$0"
         }
         if let Some(tongue) = tongue {
             match count::count_graphemes(&tongue) {
-                0 => (),
+                0 => {
+                    (config.left_tongue, config.right_tongue) = (
+                        config.template.default_left_tongue.clone(),
+                        config.template.default_right_tongue.clone(),
+                    )
+                }
                 1 => {
-                    (config.left_tongue, config.right_tongue) =
-                        (chop::grapheme_at(&tongue, 0), " ".to_string())
+                    (config.left_tongue, config.right_tongue) = (
+                        chop::grapheme_at(&tongue, 0),
+                        config.template.default_right_tongue.clone(),
+                    )
                 }
                 _ => {
                     (config.left_tongue, config.right_tongue) =
                         (chop::grapheme_at(&tongue, 0), chop::grapheme_at(&tongue, 1))
                 }
             }
-        }
-        if let Some(line) = line {
+        } else if let Some(line) = line {
             match count::count_graphemes(&line) {
                 0 => (),
                 1 => {
@@ -154,14 +353,6 @@ $8  |||| $9$0"
         if let Some(format) = format {
             config.format = format.to_string();
         }
-        if let Some(name) = name {
-            match name.as_str() {
-                "kijetesantakalu" => (),
-                "lili" => config.template = kijetesantakalu_little,
-                "soweli" => config.template = soweli,
-                name => config.template = CritterConfig::template_from_file(&name)?,
-            }
-        }
 
         return Ok(config);
     }
@@ -183,60 +374,107 @@ $8  |||| $9$0"
             .replace("$0", &self.object);
     }
     // attempts to interpret file as a path, and if this fails, tries appending it to every location in the kijepath environment variable.
-    fn template_from_file(name: &str) -> Result<CritterTemplate, &str> {
-        let file = fs::read_to_string(name)
-            .map_err(|_| "mi ken ala lukin e lipu kije\ncouldn't find/read kijefile")?;
+    fn template_from_file(name: &str) -> Result<CritterTemplate, String> {
+        let mut file = fs::read_to_string(name);
+        let paths = path();
+        if file.is_err() && !paths.is_empty() {
+            for path in path() {
+                match fs::read_to_string(&format!("{}{}", manipulate::finish(&path, "/"), name)) {
+                    Ok(f) => {
+                        file = Ok(f);
+                        break;
+                    }
+                    Err(e) => file = Err(e),
+                }
+            }
+        }
+        let file = file.map_err(|_| format!("mi ken ala lukin e nimi kije {}.\n - sina wile lukin e kije ale la o `kijetesantakaluotokieni --seme`\n - sina ken kepeken nimi suli, sama ni: /home/mi/kije\n - nimi poki li lon nimi $NASINKIJE la ilo kijetesantakaluotokieni li\n   alasa lon poki ni. o kipisi e nimi poki kepeken sitelen \":\".\n\ncouldn't find/read kijefile. check available critters with -l or --seme, try again with a full file path, or add colon-separated directories to $NASINKIJE", name))?;
+
         let mut lines = file.lines().skip_while(|l| l.starts_with('#')); // skips comments
 
         let anchor: usize;
         if let Some(anchor_line) = lines.next() {
-            anchor = anchor_line
-                .trim()
-                .parse()
-                .map_err(|_| "nanpa li nasa\ncouldn't parse anchor as number")?;
+            anchor = anchor_line.trim().parse().map_err(|_| {
+                "nanpa li nasa lon lipu kije. o pona e ona.\n\ncouldn't parse anchor as number"
+                    .to_string()
+            })?;
         } else {
-            return Err("ale li weka tan lipu kije\nkijefile missing content");
+            return Err("ale li weka tan lipu kije. ona li wile e nanpa e sitelen.\n\nkijefile missing content".to_string());
         }
         let mut critter = String::new();
         lines.for_each(|l| critter.push_str(&format!("{}\n", l)));
 
-        Ok(CritterTemplate { anchor, critter })
+        let (default_left_eye, default_right_eye, default_left_tongue, default_right_tongue) = (
+            "o".to_string(),
+            "o".to_string(),
+            " ".to_string(),
+            "".to_string(),
+        );
+        Ok(CritterTemplate {
+            default_left_eye,
+            default_right_eye,
+            default_left_tongue,
+            default_right_tongue,
+            anchor,
+            critter,
+        })
     }
 }
 
 fn path() -> Vec<String> {
     match env::var("NASINKIJE") {
         Err(_) => Vec::new(),
-        Ok(s) => s.split(":").map(|s| s.to_string()).collect(),
+        Ok(s) => s.split(":").map(|s| s.trim().to_string()).collect(),
     }
 }
 
-fn list_files() -> Result<Vec<String>, String> {
+pub fn list_files() -> Result<Vec<String>, String> {
     let mut files = Vec::new();
-
+    // must be updated alongside the name match statement in CritterConfig::config_from_string
+    for builtin in [
+        "kijetesantakalu",
+        "lili",
+        "soweli",
+        "soweli-a",
+        "waso",
+        "kala",
+        "pipi",
+        "akesi",
+        "soko",
+        "kasi",
+        "toki-pona",
+        "mu",
+        "mani",
+        "mani-majuna",
+    ] {
+        files.push(builtin.to_string());
+    }
     for i in path() {
         match fs::read_dir(&i) {
             Err(e) => match e.kind() {
                 io::ErrorKind::PermissionDenied => {
                     return Err(
-                        format!("mi ken ala lukin e poki ni: {}\npermission denied", i).to_string(),
+                        format!("mi ken ala lukin e poki ni: {}\n\npermission denied", i)
+                            .to_string(),
                     )
                 }
                 io::ErrorKind::NotFound => {
                     return Err(format!(
-                        "poki ni li lon ala: {}\ndirectory not found",
+                        "poki ni li lon ala: {}\n\ndirectory not found",
                         i.to_string()
                     ))
                 }
-                _ => return Err(format!("ijo li pakala lon ni: {}\n{:?}", i, e.kind()).to_string()),
+                _ => {
+                    return Err(format!("ijo li pakala lon ni: {}\n\n{:?}", i, e.kind()).to_string())
+                }
             },
             Ok(entries) => {
                 for read in entries {
                     let filename = read
-                        .map_err(|e|format!("mi ken ala lukin e lipu lon ni: {}\n{}", i, e.to_string()).to_string())?
+                        .map_err(|e|format!("mi ken ala lukin e lipu lon ni: {}\n\n{}", i, e.to_string()).to_string())?
                         .file_name()
                         .into_string()
-                        .map_err(|_|format!("mi ken ala sitelen UTF-8 e nimi lipu lon ni: {}\ncould not display file name as utf-8", i).to_string())?;
+                        .map_err(|_|format!("mi ken ala sitelen UTF-8 e nimi lipu lon ni: {}\n\ncould not display file name as utf-8", i).to_string())?;
                     files.push(filename);
                 }
             }
