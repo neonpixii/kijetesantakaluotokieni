@@ -3,10 +3,7 @@ pub enum Formats {
     Bright,
     Dim,
     Italic,
-    Underline,
     Blink,
-    Reverse,
-    Strike,
 }
 
 // outputs a code to reset all formatting. equivalent to Formats::Plain.escape(false)
@@ -21,10 +18,7 @@ impl Formats {
             Formats::Bright => 1,
             Formats::Dim => 2,
             Formats::Italic => 3,
-            Formats::Underline => 4,
             Formats::Blink => 5,
-            Formats::Reverse => 7,
-            Formats::Strike => 9,
         };
         if code == 0 {
             // you can't disable plain
