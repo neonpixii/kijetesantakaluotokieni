@@ -31,7 +31,17 @@ fn main() {
             (critter_config, bubble_config) = (c, b);
         }
     }
-    if !cli.text.is_empty() {
+    if cli.seme {
+        match critters::list_files() {
+            Err(e) => println!("{}", e),
+            Ok(files) => {
+                for file in files {
+                    print!("{} ", file)
+                }
+            }
+        }
+        return;
+    } else if !cli.text.is_empty() {
         text = cli.text.join(" ")
     } else {
         io::stdin()
@@ -76,7 +86,7 @@ struct Args {
     #[clap(short = 'k', long, help = "o ante e kule kijetesantakalu")]
     kule: Vec<String>,
 
-    #[clap(short = 'l', long, help = "FINISH sijelo seme li lon?")]
+    #[clap(short = 'l', long, help = "sijelo seme li lon?")]
     seme: bool,
 
     // implementation of classic cowsay flags
@@ -117,14 +127,16 @@ impl Args {
         let mut tongue = self.uta.clone();
         let mut line = self.palisa.clone();
         let object = self.ijo.clone();
-        let mut format = "".to_string();
+        let mut format = if self.kule.is_empty() {
+            kule::reset()
+        } else {
+            String::new()
+        };
         let name = self.nimi.clone();
 
         let mut border = self.poki.clone();
 
-        if self.ilo {
-            eyes = Some("==".to_string());
-        } else if self.moli {
+        if self.moli {
             eyes = Some("xx".to_string());
             tongue = Some("U".to_string());
         } else if self.wile_mani {
@@ -147,6 +159,7 @@ impl Args {
             line = Some("oOo".to_string());
             border = Some("_()-".to_string());
         }
+
         for i in &self.kule {
             let lower = query::is_lowercase(&i);
             let lower_i = case::lower_case(&i);
@@ -214,7 +227,7 @@ impl Args {
                 _ => String::new(),
             })
         }
-        let critter_config = CritterConfig::config_from_string(
+        let mut critter_config = CritterConfig::config_from_string(
             &eyes,
             &tongue,
             &line,
@@ -222,6 +235,25 @@ impl Args {
             &Some(format),
             &name,
         )?;
+        // borg mode uses special formatting so it needs to happen after the critters been made
+        if self.ilo {
+            critter_config.left_eye = format!(
+                "{}o{}{}",
+                Formats::Dim.escape(false),
+                kule::reset(),
+                critter_config.format
+            )
+            .to_string();
+            critter_config.right_eye = format!(
+                "{}{}{}o{}{}",
+                Formats::Blink.escape(false),
+                Formats::Bright.escape(false),
+                FourBit::BrightRed.escape(false),
+                kule::reset(),
+                critter_config.format
+            )
+            .to_string();
+        }
         let bubble_config = BubbleConfig::config_from_string(
             critter_config.template.anchor,
             self.pakala,
@@ -235,5 +267,5 @@ impl Args {
 
 fn output(text: &str, critter_config: CritterConfig, bubble_config: BubbleConfig) -> () {
     print!("{}", bubble_config.bubble_from_text(text));
-    println!("{}", critter_config.format_critter())
+    println!("{}{}", critter_config.format_critter(), kule::reset());
 }
