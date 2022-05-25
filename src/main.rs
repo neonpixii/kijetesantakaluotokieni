@@ -35,9 +35,7 @@ fn main() {
         match critters::list_files() {
             Err(e) => println!("{}", e),
             Ok(files) => {
-                for file in files {
-                    print!("{} ", file)
-                }
+                print!("{}", files.join(" "))
             }
         }
         return;
@@ -64,7 +62,7 @@ struct Args {
     ijo: Option<String>,
 
     #[clap(short = 'i', long, help = "o ante e palisa pi poki toki")]
-    palisa: Option<String>,
+    linja: Option<String>,
 
     #[clap(short = 'u', long, help = "o ante e poki toki")]
     poki: Option<String>,
@@ -90,7 +88,7 @@ struct Args {
     seme: bool,
 
     // implementation of classic cowsay flags
-    #[clap(short = 'b', long)]
+    #[clap(short = 'b', long = "o-sama")]
     ilo: bool,
 
     #[clap(short = 'd', long)]
@@ -114,6 +112,9 @@ struct Args {
     #[clap(short = 'y', long)]
     lili: bool,
 
+    #[clap(short = 'z', long)]
+    suwi: bool,
+
     #[clap(short = 'I', long)]
     pilin: bool,
 
@@ -125,7 +126,7 @@ impl Args {
     fn configs_from_arguments(&self) -> Result<(CritterConfig, BubbleConfig), String> {
         let mut eyes = self.lukin.clone();
         let mut tongue = self.uta.clone();
-        let mut line = self.palisa.clone();
+        let mut line = self.linja.clone();
         let object = self.ijo.clone();
         let mut format = if self.kule.is_empty() {
             kule::reset()
@@ -154,6 +155,8 @@ impl Args {
             eyes = Some("OO".to_string());
         } else if self.lili {
             eyes = Some("..".to_string());
+        } else if self.suwi {
+            eyes = Some("^^".to_string());
         }
         if self.pilin {
             line = Some("oOo".to_string());
@@ -221,6 +224,7 @@ impl Args {
                     }
                 }
                 "suli" => Formats::Bright.escape(false),
+                "wawa" => Formats::Bright.escape(false),
                 "len" => Formats::Dim.escape(false),
                 "mamamije" => Formats::Italic.escape(false),
                 "sike" => Formats::Blink.escape(false),
