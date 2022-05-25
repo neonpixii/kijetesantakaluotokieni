@@ -71,6 +71,47 @@ $8     |  |
 $8 (III|\||  $9$0"
                         .to_string(),
                 },
+                "kuletesantakalu" => CritterTemplate {
+                    anchor: 14,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: "             $6
+$8\x1b[38;2;255;34;41m      /__    $9$6
+$8\x1b[38;2;253;232;26m     / $1$2\\  $9$5
+$8\x1b[38;2;0;230;78m     |  |$3$4
+$8\x1b[38;2;64;128;255m     |  |
+$8\x1b[38;2;200;41;200m (III|\\||  $9$0"
+                        .to_string(),
+                },
+                "kijetonsitakalu" => CritterTemplate {
+                    anchor: 14,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: "             $6
+$8\x1b[38;2;244;244;48m      /__    $9$6
+$8\x1b[38;2;232;232;232m     / $1$2\\  $9$5
+$8\x1b[38;2;209;89;209m     |  |$3$4
+$8\x1b[38;2;78;78;78m   (I|\\||  $9$0"
+                        .to_string(),
+                },
+                "kijetonsitakatu" => CritterTemplate {
+                    anchor: 14,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: "             $6
+$8\x1b[38;2;48;164;250m      /__    $9$6
+$8\x1b[38;2;245;169;184m     / $1$2\\  $9$5
+$8\x1b[38;2;232;232;232m     |  |$3$4
+$8\x1b[38;2;245;169;184m     |  |
+$8\x1b[38;2;48;164;250m (III|\\||  $9$0"
+                        .to_string(),
+                },
                 "lili" => CritterTemplate {
                     anchor: 13,
                     default_left_eye: "o".to_string(),
@@ -388,7 +429,7 @@ $8 (III|\||  $9$0"
                 }
             }
         }
-        let file = file.map_err(|_| format!("mi ken ala lukin e nimi kije {}.\n - sina wile lukin e kije ale la o `kijetesantakaluotokieni --seme`\n - sina ken kepeken nimi suli, sama ni: /home/mi/kije\n - nimi poki li lon nimi $NASINKIJE la ilo kijetesantakaluotokieni li\n   alasa lon poki ni. o kipisi e nimi poki kepeken sitelen \":\".\n\ncouldn't find/read kijefile. check available critters with -l or --seme, try again with a full file path, or add colon-separated directories to $NASINKIJE", name))?;
+        let file = file.map_err(|_| format!("mi ken ala lukin e nimi kije {}.\n - sina wile lukin e kije ale la o `kijetesantakaluotokieni --seme`\n - sina ken kepeken nimi suli, sama ni: /home/mi/kije\n - nimi poki li lon nimi $NASINKIJE la ilo kijetesantakaluotokieni li\n   alasa lon poki ni. o kipisi e nimi poki kepeken sitelen \":\".\n\ncouldn't find/read kijefile {}. check available critters with -l or --seme, try again with a full file path, or add colon-separated directories to $NASINKIJE", name, name))?;
 
         let mut lines = file.lines().skip_while(|l| l.starts_with('#')); // skips comments
 
@@ -401,15 +442,33 @@ $8 (III|\||  $9$0"
         } else {
             return Err("ale li weka tan lipu kije. ona li wile e nanpa e sitelen.\n\nkijefile missing content".to_string());
         }
+        let default_left_eye = lines
+            .next()
+            .ok_or(
+                "lukin nanpa wan li lon ala lipu kije\nleft eye missing from kijefile".to_string(),
+            )?
+            .to_string();
+        let default_right_eye = lines
+            .next()
+            .ok_or(
+                "lukin nanpa tu li lon ala lipu kije\nright eye missing from kijefile".to_string(),
+            )?
+            .to_string();
+        let default_left_tongue = lines
+            .next()
+            .ok_or(
+                "uta nanpa wan li lon ala lipu kije\nleft tongue missing from kijefile".to_string(),
+            )?
+            .to_string();
+        let default_right_tongue = lines
+            .next()
+            .ok_or(
+                "uta nanpa tu li lon ala lipu kije\nright tongue missing from kijefile".to_string(),
+            )?
+            .to_string();
         let mut critter = String::new();
-        lines.for_each(|l| critter.push_str(&format!("{}\n", l)));
+        lines.for_each(|l| critter.push_str(&format!("{}\n", l).to_string()));
 
-        let (default_left_eye, default_right_eye, default_left_tongue, default_right_tongue) = (
-            "o".to_string(),
-            "o".to_string(),
-            " ".to_string(),
-            "".to_string(),
-        );
         Ok(CritterTemplate {
             default_left_eye,
             default_right_eye,
@@ -433,6 +492,9 @@ pub fn list_files() -> Result<Vec<String>, String> {
     // must be updated alongside the name match statement in CritterConfig::config_from_string
     for builtin in [
         "kijetesantakalu",
+        "kuletesantakalu",
+        "kijetonsitakalu",
+        "kijetonsitakatu",
         "lili",
         "soweli",
         "soweli-a",
