@@ -1,4 +1,5 @@
 #!/usr/bin/fish
+set -lx NASINKIJE "$HOME/z/preciouskijes/"
 cargo build
 
 echo 123456789\|123456789\|123456789\|123456789\|123456789\|123456789\|123456789\| | ./target/debug/kijetesantakaluotokieni
@@ -13,7 +14,7 @@ echo "Белеет парус одинокий
 A lonely sail is flashing white
 Amdist the blue mist of the sea!...
 What does it seek in foreign lands?
-What did it leave behind at home?.." | ./target/debug/kijetesantakaluotokieni --poki "~3Ew/\\\\/"
+What did it leave behind at home?.." | ./target/debug/kijetesantakaluotokieni --poki "w3Em/\\\\/"
 
 echo | ./target/debug/kijetesantakaluotokieni
 
@@ -21,6 +22,16 @@ echo mu | ./target/debug/kijetesantakaluotokieni --nimi soweli
 
 echo mi wile e supa lape   | ./target/debug/kijetesantakaluotokieni --lape 
 echo 12345678901234 | ./target/debug/kijetesantakaluotokieni
-echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni --pilin --kule unu  --kule suli --nimi lili 
+echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni --pilin --kule unu  --kule suli -b --nimi lili 
 
-figlet the nineties | ./target/debug/kijetesantakaluotokieni --pakala-ala
+figlet the nineties | ./target/debug/kijetesantakaluotokieni --pakala-ala -f yupekosi
+
+./target/debug/kijetesantakaluotokieni -l
+for name in (./target/debug/kijetesantakaluotokieni -l | string split " ");
+    ./target/debug/kijetesantakaluotokieni -f $name mu;
+end;
+
+
+./target/debug/kijetesantakaluotokieni -f kijetonsitakalu mu
+./target/debug/kijetesantakaluotokieni -f kijetonsitakatu  mu
+./target/debug/kijetesantakaluotokieni -f kuletesantakalu  mu
