@@ -23,8 +23,12 @@ fn main() {
     let mut text = String::new();
     let (critter_config, bubble_config);
     match cli.configs_from_arguments() {
-        Err(s) => {
-            println!("pakala a!\n{}", s);
+        Err((s, e)) => {
+            if cli.inli {
+                println!("error:\n{}", e);
+            } else {
+                println!("pakala a!\n{}", s);
+            }
             return;
         }
         Ok((c, b)) => {
@@ -33,7 +37,13 @@ fn main() {
     }
     if cli.seme {
         match critters::list_files() {
-            Err(e) => println!("{}", e),
+            Err((s, e)) => {
+                if cli.inli {
+                    println!("error: {}", e)
+                } else {
+                    println!("pakala a!\n{}", s)
+                }
+            }
             Ok(files) => {
                 print!("{}", files.join(" "))
             }
@@ -115,15 +125,18 @@ struct Args {
     #[clap(short = 'z', long)]
     suwi: bool,
 
-    #[clap(short = 'I', long)]
+    #[clap(short = 'P', long)]
     pilin: bool,
+
+    #[clap(short = 'I', long)]
+    inli: bool,
 
     // optional text input
     text: Vec<String>,
 }
 
 impl Args {
-    fn configs_from_arguments(&self) -> Result<(CritterConfig, BubbleConfig), String> {
+    fn configs_from_arguments(&self) -> Result<(CritterConfig, BubbleConfig), (String, String)> {
         let mut eyes = self.lukin.clone();
         let mut tongue = self.uta.clone();
         let mut line = self.linja.clone();

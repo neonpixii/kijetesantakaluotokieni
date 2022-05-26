@@ -52,7 +52,7 @@ impl CritterConfig {
         object: &Option<String>,
         format: &Option<String>,
         name: &Option<String>,
-    ) -> Result<CritterConfig, String> {
+    ) -> Result<CritterConfig, (String, String)> {
         let template: CritterTemplate;
         if let Some(name) = name {
             template = match name.as_str() {
@@ -415,7 +415,7 @@ $8 (III|\||  $9$0"
             .replace("$0", &self.object);
     }
     // attempts to interpret file as a path, and if this fails, tries appending it to every location in the kijepath environment variable.
-    fn template_from_file(name: &str) -> Result<CritterTemplate, String> {
+    fn template_from_file(name: &str) -> Result<CritterTemplate, (String, String)> {
         let mut file = fs::read_to_string(name);
         let paths = path();
         if file.is_err() && !paths.is_empty() {
@@ -429,42 +429,54 @@ $8 (III|\||  $9$0"
                 }
             }
         }
-        let file = file.map_err(|_| format!("mi ken ala lukin e nimi kije {}.\n - sina wile lukin e kije ale la o `kijetesantakaluotokieni --seme`\n - sina ken kepeken nimi suli, sama ni: /home/mi/kije\n - nimi poki li lon nimi $NASINKIJE la ilo kijetesantakaluotokieni li\n   alasa lon poki ni. o kipisi e nimi poki kepeken sitelen \":\".\n\ncouldn't find/read kijefile {}. check available critters with -l or --seme, try again with a full file path, or add colon-separated directories to $NASINKIJE", name, name))?;
+        let file = file.map_err(|_| (
+            format!("mi ken ala lukin e nimi kije {}.\n - sina wile lukin e kije ale la o `kijetesantakaluotokieni --seme`\n - sina ken kepeken nimi suli, sama ni: /home/mi/kije\n - nimi poki li lon nimi $NASINKIJE la ilo kijetesantakaluotokieni li\n   alasa lon poki ni. o kipisi e nimi poki kepeken sitelen \":\".", name), 
+            format!("couldn't find/read kijefile {}. check available critters with -l or --seme, try again with a full file path, or add colon-separated directories to $NASINKIJE",  name)
+        ))?;
 
         let mut lines = file.lines().skip_while(|l| l.starts_with('#')); // skips comments
 
         let anchor: usize;
         if let Some(anchor_line) = lines.next() {
             anchor = anchor_line.trim().parse().map_err(|_| {
-                "nanpa li nasa lon lipu kije. o pona e ona.\n\ncouldn't parse anchor as number"
-                    .to_string()
+                (
+                    "nanpa li nasa lon lipu kije. o pona e ona.".to_string(),
+                    "couldn't parse anchor as number".to_string(),
+                )
             })?;
         } else {
-            return Err("ale li weka tan lipu kije. ona li wile e nanpa e sitelen.\n\nkijefile missing content".to_string());
+            return Err((
+                "ale li weka tan lipu kije. ona li wile e nanpa e sitelen.".to_string(),
+                "kijefile missing content".to_string(),
+            ));
         }
         let default_left_eye = lines
             .next()
-            .ok_or(
-                "lukin nanpa wan li lon ala lipu kije\nleft eye missing from kijefile".to_string(),
-            )?
+            .ok_or((
+                "lukin nanpa wan li lon ala lipu kije".to_string(),
+                "left eye missing from kijefile".to_string(),
+            ))?
             .to_string();
         let default_right_eye = lines
             .next()
-            .ok_or(
-                "lukin nanpa tu li lon ala lipu kije\nright eye missing from kijefile".to_string(),
-            )?
+            .ok_or((
+                "lukin nanpa tu li lon ala lipu kije".to_string(),
+                "right eye missing from kijefile".to_string(),
+            ))?
             .to_string();
         let default_left_tongue = lines
             .next()
-            .ok_or(
-                "uta nanpa wan li lon ala lipu kije\nleft tongue missing from kijefile".to_string(),
-            )?
+            .ok_or((
+                "uta nanpa wan li lon ala lipu kije".to_string(),
+                "left tongue missing from kijefile".to_string(),
+            ))?
             .to_string();
         let default_right_tongue = lines
             .next()
-            .ok_or(
-                "uta nanpa tu li lon ala lipu kije\nright tongue missing from kijefile".to_string(),
-            )?
+            .ok_or((
+                "uta nanpa tu li lon ala lipu kije".to_string(),
+                "right tongue missing from kijefile".to_string(),
+            ))?
             .to_string();
         let mut critter = String::new();
         lines.for_each(|l| critter.push_str(&format!("{}\n", l).to_string()));
@@ -487,7 +499,7 @@ fn path() -> Vec<String> {
     }
 }
 
-pub fn list_files() -> Result<Vec<String>, String> {
+pub fn list_files() -> Result<Vec<String>, (String, String)> {
     let mut files = Vec::new();
     // must be updated alongside the name match statement in CritterConfig::config_from_string
     for builtin in [
@@ -515,28 +527,41 @@ pub fn list_files() -> Result<Vec<String>, String> {
         match fs::read_dir(&i) {
             Err(e) => match e.kind() {
                 io::ErrorKind::PermissionDenied => {
-                    return Err(
-                        format!("mi ken ala lukin e poki ni: {}\n\npermission denied", i)
-                            .to_string(),
-                    )
+                    return Err((
+                        format!("mi ken ala lukin e poki ni: {}", i),
+                        format!("{}: permission denied", i),
+                    ))
                 }
                 io::ErrorKind::NotFound => {
-                    return Err(format!(
-                        "poki ni li lon ala: {}\n\ndirectory not found",
-                        i.to_string()
+                    return Err((
+                        format!("poki ni li lon ala: {}", i),
+                        format!("{}: directory not found", i),
                     ))
                 }
                 _ => {
-                    return Err(format!("ijo li pakala lon ni: {}\n\n{:?}", i, e.kind()).to_string())
+                    return Err((
+                        format!("ijo li pakala lon ni: {}\n{:?}", i, e.kind()),
+                        format!("{}: an error occurred: {:?}", i, e.kind()),
+                    ))
                 }
             },
             Ok(entries) => {
                 for read in entries {
                     let filename = read
-                        .map_err(|e|format!("mi ken ala lukin e lipu lon ni: {}\n\n{}", i, e.to_string()).to_string())?
+                        .map_err(|e| {
+                            (
+                                format!("mi ken ala lukin e lipu lon ni: {}\n{}", i, e.to_string()),
+                                format!("can't read file: {}\n{}", i, e.to_string()),
+                            )
+                        })?
                         .file_name()
                         .into_string()
-                        .map_err(|_|format!("mi ken ala sitelen UTF-8 e nimi lipu lon ni: {}\n\ncould not display file name as utf-8", i).to_string())?;
+                        .map_err(|_| {
+                            (
+                                format!("mi ken ala sitelen UTF-8 e nimi lipu lon ni: {}", i),
+                                format!("could not display file name in {} as utf-8", i),
+                            )
+                        })?;
                     files.push(filename);
                 }
             }
