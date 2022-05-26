@@ -122,11 +122,15 @@ o kipisi e nimi poki lon nimi $NASINKIJE kepeken sitelen "**:**". sama ni: "/usr
 
 ni li pana e ken ante ale.
 
+#### --inli, -I
+
+toki pakala li kepeken toki Inli.
+
 ### ante musi
 
 **--o-sama** (**-b**) la ona li lukin sama kulupu Borg tan sitelen Tawa Mun: Kulupu Sin. **--moli**(**-d**) la ona li pini :c. **--wile-mani** (**-g**) la wile ona li kama ike. ona li ken pilin **--monsuta** (**-p**). **--kasi-nasa** (**-s**) la ona li moku e kasi nasa mute. tenpo mute la ona li pilin **--lape** (**-t**). taso ona li moku e telo pimeja la ona li pilin **--wawa** (**-w**). **--lili** (**-y**) la lukin ona li kama lili. kin la sina ken **--suwi** (**-z**) e lukin ona. sina kepeken wan taso pi toki ante ni, la ale li pona. taso, sina kepeken ni mute, la ona li ken nasa.
 
-sina kepeken **--pilin** (**-I**) la kijetesantakalu li toki insa.
+sina kepeken **--pilin** (**-P**) la kijetesantakalu li toki insa.
 
 ## lipu kije
 
@@ -147,17 +151,17 @@ sina wile e sitelen sin, la o pali e lipu kije lon nasin ni:
   - **$5**: linja toki nanpa wan. `--linja` li lon ala, la ona li kama "/".
   - **$6**: linja toki nanpa tu. `--linja` li lon ala, la ona li kama "|".
   - **$7**: linja toki nanpa mute. `--linja` li lon ala, la ona li kama "\".
-  - **$8**: kule ante. `--kule` li lon, la sitelen ale lon sinpin ona li kama kule ante. `--kule` li lon ala, la kule li ante ala. suli ona li ala; ona li sama "" lon sitelen.
-  - **$9**: kule ala. ona li weka e kule ante ali tan sitelen ali lon sinpin ona. suli ona li ala; ona li sama "" lon sitelen.
+  - **$8**: kule ante. `--kule` li lon, la sitelen ale lon teje ona li kama kule ante. `--kule` li lon ala, la kule li ante ala. suli ona li ala; ona li sama "" lon sitelen.
+  - **$9**: kule ala. ona li weka e kule ante ali tan sitelen ali lon teje ona. suli ona li ala; ona li sama "" lon sitelen.
   - **$0**: sitelen ijo li tawa ni. `--ijo` li lon ala, la ona li kama " ".
 
 lipu kije ni li pona :
 
 ```
-# greets tawa wasoweli Awasi, tawa kulupu Aponi,
-# tawa lipamanka, tawa jan Tepo, tawa jan Sonja
+# greets tawa wasoweli Awasi, tawa kulupu Aponi, tawa soweli ilijana
+# tawa lipamanka, tawa jan Tepo, tawa jan Sonja, tawa blackle
 7
-0
+o
 o
 w
 
@@ -177,19 +181,19 @@ sina pana e lipu kije ni tawa ilo kijetesantakaluotokieni kepeken `--nimi`, la o
       \
        \
    ___  \
-   0wo) /
-  ||||f
+   owo) /
+  ||||
 ```
 
 ## nimi pi ilo sona $NASINKIJE
 
 nimi pi poki lipu li lon nimi ilo $NASINKIJE, la ilo kijetesantakaluotokieni li sona e lipu kije lon poki ni. ni la sina wile ala pana e nimi suli tawa `--nimi`. o kipisi e nimi poki lon nimi $NASINKIJE kepeken sitelen "**:**". sama ni: "/usr/local/share/kije:/home/mi/kije"
 
-## examples
+## kepeken ken:
 
 `kijetesantakaluotokieni --lukin="-" --kule wawa --kule sike --kule KASI --nimi waso tonsi li pona! jan lawa ale li ike!`
 
-`echo Pingo pi n't go li sitelen | kijetesantakaluotokieni --kasi-nasa --pilin --ijo 🍁`
+`echo Pingo pi n't go li sitelen | kijetesantakaluotokieni --kasi-nasa --pilin --ijo 🍁 --nimi kijetonsitakalu`
 
 ## bugs
 
@@ -197,7 +201,9 @@ pipi li suwi.
 
 ## mama
 
-mama pi ilo ni li kulupu lintukamakaki.
+mama pi ilo kijetesantakaluotokieni li kulupu lintukamakaki. soweli ilijana en soweli Awasi li pana e sona mute pi toki ilo Rust tawa mi.
+
+mama sitelen pi "mani-majuna" li jan Tony Monroe. ona li pali e ilo cowsay.
 
 ## o lukin e ni kin
 
