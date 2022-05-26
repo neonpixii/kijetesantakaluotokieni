@@ -151,7 +151,7 @@ sina wile e sitelen sin, la o pali e lipu kije lon nasin ni:
   - **$9**: kule ala. ona li weka e kule ante ali tan sitelen ali lon sinpin ona. suli ona li ala; ona li sama "" lon sitelen.
   - **$0**: sitelen ijo li tawa ni. `--ijo` li lon ala, la ona li kama " ".
 
-lipu kije ken:
+lipu kije ni li pona :
 
 ```
 # greets tawa wasoweli Awasi, tawa kulupu Aponi,
@@ -165,7 +165,7 @@ w
        $7
 $8   ___  $9$7
 $8   $1$3$2) $9$5
-$8  ||||$4$9$0
+$8  |||| $9$0
 ```
 
 sina pana e lipu kije ni tawa ilo kijetesantakaluotokieni kepeken `--nimi`, la ona li pali e ni:
@@ -178,7 +178,7 @@ sina pana e lipu kije ni tawa ilo kijetesantakaluotokieni kepeken `--nimi`, la o
        \
    ___  \
    0wo) /
-  ||||
+  ||||f
 ```
 
 ## nimi pi ilo sona $NASINKIJE
