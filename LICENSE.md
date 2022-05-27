@@ -2,7 +2,8 @@
 
 **sona mama:**
 
-kulupu lintukamakaki li mama e ilo kijetesantakaluotokieni. \
+kulupu lintukamakaki li mama pi ilo kijetesantakaluotokieni.
+
 mama pi sitelen "mani-majuna" li jan Tony Monroe. ona li tan ilo cowsay.
 
 **ken sina:**
