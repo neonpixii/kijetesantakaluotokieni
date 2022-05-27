@@ -2,6 +2,8 @@ use super::kule::*;
 use std::env;
 use std::fs;
 use std::io;
+use std::path::Path;
+use std::path::PathBuf;
 use voca_rs::*;
 
 // represents inherent structural information about a critter
@@ -420,7 +422,7 @@ $8 (III|\||  $9$0"
         let paths = path();
         if file.is_err() && !paths.is_empty() {
             for path in path() {
-                match fs::read_to_string(&format!("{}{}", manipulate::finish(&path, "/"), name)) {
+                match fs::read_to_string(path.join(name)) {
                     Ok(f) => {
                         file = Ok(f);
                         break;
@@ -430,7 +432,7 @@ $8 (III|\||  $9$0"
             }
         }
         let file = file.map_err(|_| (
-            format!("mi ken ala lukin e nimi kije {}.\n - sina wile lukin e kije ale la o `kijetesantakaluotokieni --seme`\n - sina ken kepeken nimi suli, sama ni: /home/mi/kije\n - nimi poki li lon nimi $NASINKIJE la ilo kijetesantakaluotokieni li\n   alasa lon poki ni. o kipisi e nimi poki kepeken sitelen \":\".", name), 
+            format!("mi ken ala lukin e nimi kije {}.\n - sina wile lukin e kije ale la o `kijetesantakaluotokieni --seme`\n - sina ken kepeken nimi suli, sama ni: /home/mi/kije\n - nimi pi poki lipu li lon nimi $NASINKIJE la ilo kijetesantakaluotokieni li\n   alasa lon poki ni. o kipisi e nimi poki kepeken sitelen \":\" (ilo Windows la \";\").", name), 
             format!("couldn't find/read kijefile {}. check available critters with -l or --seme, try again with a full file path, or add colon-separated directories to $NASINKIJE",  name)
         ))?;
 
@@ -492,10 +494,13 @@ $8 (III|\||  $9$0"
     }
 }
 
-fn path() -> Vec<String> {
+fn path() -> Vec<PathBuf> {
     match env::var("NASINKIJE") {
         Err(_) => Vec::new(),
-        Ok(s) => s.split(":").map(|s| s.trim().to_string()).collect(),
+        Ok(s) => s
+            .split(if cfg!(windows) { ";" } else { ":" })
+            .map(|s| Path::new(s.trim()).to_path_buf())
+            .collect(),
     }
 }
 
@@ -524,24 +529,27 @@ pub fn list_files() -> Result<Vec<String>, (String, String)> {
         files.push(builtin.to_string());
     }
     for i in path() {
+        let name = i
+            .to_str()
+            .unwrap_or("[mi ken ala sitelen UTF-8 e nimi poki.]");
         match fs::read_dir(&i) {
             Err(e) => match e.kind() {
                 io::ErrorKind::PermissionDenied => {
                     return Err((
-                        format!("mi ken ala lukin e poki ni: {}", i),
-                        format!("{}: permission denied", i),
+                        format!("mi ken ala lukin e poki ni: {}", name),
+                        format!("{}: permission denied", name),
                     ))
                 }
                 io::ErrorKind::NotFound => {
                     return Err((
-                        format!("poki ni li lon ala: {}", i),
-                        format!("{}: directory not found", i),
+                        format!("poki ni li lon ala: {}", name),
+                        format!("{}: directory not found", name),
                     ))
                 }
                 _ => {
                     return Err((
-                        format!("ijo li pakala lon ni: {}\n{:?}", i, e.kind()),
-                        format!("{}: an error occurred: {:?}", i, e.kind()),
+                        format!("ijo li pakala lon ni: {}\n{:?}", name, e.kind()),
+                        format!("{}: an error occurred: {:?}", name, e.kind()),
                     ))
                 }
             },
@@ -550,16 +558,20 @@ pub fn list_files() -> Result<Vec<String>, (String, String)> {
                     let filename = read
                         .map_err(|e| {
                             (
-                                format!("mi ken ala lukin e lipu lon ni: {}\n{}", i, e.to_string()),
-                                format!("can't read file: {}\n{}", i, e.to_string()),
+                                format!(
+                                    "mi ken ala lukin e lipu lon ni: {}\n{}",
+                                    name,
+                                    e.to_string()
+                                ),
+                                format!("can't read file: {}\n{}", name, e.to_string()),
                             )
                         })?
                         .file_name()
                         .into_string()
                         .map_err(|_| {
                             (
-                                format!("mi ken ala sitelen UTF-8 e nimi lipu lon ni: {}", i),
-                                format!("could not display file name in {} as utf-8", i),
+                                format!("mi ken ala sitelen UTF-8 e nimi lipu lon ni: {}", name),
+                                format!("could not display file name in {} as utf-8", name),
                             )
                         })?;
                     files.push(filename);
