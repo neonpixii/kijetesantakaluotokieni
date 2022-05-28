@@ -1,5 +1,9 @@
 #!/usr/bin/fish
+# this test script relies on things that exist on our computer which probably don't exist on yours. it is not meant to be a demonstration. we have been using it solely for debugging as we work.
+
+
 set -lx NASINKIJE "$HOME/z/preciouskijes/"
+
 cargo build
 
 echo 123456789\|123456789\|123456789\|123456789\|123456789\|123456789\|123456789\| | ./target/debug/kijetesantakaluotokieni
@@ -22,7 +26,7 @@ echo mu | ./target/debug/kijetesantakaluotokieni --nimi soweli
 
 echo mi wile e supa lape   | ./target/debug/kijetesantakaluotokieni --lape 
 echo 12345678901234 | ./target/debug/kijetesantakaluotokieni
-echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni --pilin --kule unu  --kule suli -b --nimi lili 
+echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni --pilin --kule unu  --kule suli -b --nimi kije-lili 
 
 figlet the nineties | ./target/debug/kijetesantakaluotokieni --pakala-ala -f yupekosi
 
