@@ -22,7 +22,7 @@ kijetesantakaluotokieni - kijetesantakalu toki pi ken ante.
 
 ## ni li seme?
 
-ilo `kijetesantakaluotokieni` li pali e sitelen kijetesantakalu toki. ona li toki e toki pana sina. sina pana ala e toki la ona li kepeken nasin stdin. ona li sama ilo `cowsay` lon nasin mute. toki ale `cowsay` pi ken ante li pona tawa ilo `kijetesantakaluotokieni`. taso, ken ante sin li lon ilo `kijetesantakaluotokieni`!
+ilo `kijetesantakaluotokieni` li pali e sitelen kijetesantakalu toki. ona li toki e toki pana sina. sina pana ala e toki la ona li kepeken nasin stdin. ona li sama ilo `cowsay` lon nasin mute. toki ale `cowsay` pi ken ante li pona tawa ilo `kijetesantakaluotokieni`. taso, ken ante sin li lon ilo `kijetesantakaluotokieni`! sina wile sona e ken ante ale la o lukin lon lipu ni.
 
 nimi kijetesantakaluotokieni en nimi kijetesantakaluopilineni li suli mute a! sina wile e nimi lili la sina ken kepeken nimi "kijesay" en nimi "kijethink".
 
