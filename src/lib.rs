@@ -73,7 +73,7 @@ struct Args {
     #[clap(short = 'o', long, help = "o pana e ijo tawa kijetesantakalu")]
     ijo: Option<String>,
 
-    #[clap(short = 'i', long, help = "o ante e palisa pi poki toki")]
+    #[clap(short = 'i', long, help = "o ante e linja pi poki toki")]
     linja: Option<String>,
 
     #[clap(short = 'u', long, help = "o ante e poki toki")]
@@ -96,7 +96,7 @@ struct Args {
     #[clap(
         short = 'k',
         long,
-        help = "o ante e kule kijetesantakalu (walo, pimeja, loje, jelo, laso, kasi,sewi, unu, wawa/suli, len, sike, mamamije)"
+        help = "o ante e kule kijetesantakalu\n(walo, pimeja, loje, jelo, laso, kasi, sewi, unu,\n wawa/suli, len, sike, mamamije)"
     )]
     kule: Vec<String>,
 
@@ -134,7 +134,7 @@ struct Args {
     #[clap(short = 'P', long)]
     pilin: bool,
 
-    #[clap(short = 'I', long, help = "toki pakala li kepeken toki Inli")]
+    #[clap(short = 'I', long, help = "o kepeken toki Inli lon toki pakala")]
     inli: bool,
 
     // optional text input
