@@ -26,6 +26,8 @@ ilo `kijetesantakaluotokieni` li pali e sitelen kijetesantakalu toki. ona li tok
 
 nimi kijetesantakaluotokieni en nimi kijetesantakaluopilineni li suli mute a! sina wile e nimi lili la sina ken kepeken nimi "kijesay" en nimi "kijethink".
 
+lawa kepeken li lon tawa ilo `kijetesantakaluotokieni`. lawa li lon lipu [LICENSE.md](LICENSE.md). taso lawa kepeken li _lon ala_ tawa sitelen tan ilo ni. sina pali e sitelen kepeken ilo ni, la sina ken pali e _ijo ale_ kepeken sitelen a! sina wile ala pana e mani tawa mi. sina wile ala pana e nimi mi. sina ken pana e nimi mi la sina pona, taso sina wile ala. o pona!
+
 ## toki pi ken ante
 
 ### ante sitelen
