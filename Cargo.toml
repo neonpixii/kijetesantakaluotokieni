@@ -4,6 +4,7 @@ name = "kijetesantakaluotokieni"
 version = "0.1.0"
 edition = "2021"
 about = "kijetesantakalu toki tawa ilo sona sina"
+default-run = "kijetesantakaluotokieni"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
