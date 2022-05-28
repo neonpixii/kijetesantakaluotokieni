@@ -575,6 +575,7 @@ pub fn list_files() -> Result<Vec<String>, (String, String)> {
         "mu",
         "mani",
         "mani-majuna",
+        "yupekosi",
     ] {
         files.push(builtin.to_string());
     }
