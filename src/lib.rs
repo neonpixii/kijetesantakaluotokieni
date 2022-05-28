@@ -27,9 +27,9 @@ pub fn run(mode: Modes) {
     match cli.configs_from_arguments() {
         Err((s, e)) => {
             if cli.inli {
-                println!("error:\n{}", e);
+                eprintln!("error:\n{}", e);
             } else {
-                println!("pakala a!\n{}", s);
+                eprintln!("pakala a!\n{}", s);
             }
             return;
         }
@@ -41,9 +41,9 @@ pub fn run(mode: Modes) {
         match critters::list_files() {
             Err((s, e)) => {
                 if cli.inli {
-                    println!("error: {}", e)
+                    eprintln!("error: {}", e)
                 } else {
-                    println!("pakala a!\n{}", s)
+                    eprintln!("pakala a!\n{}", s)
                 }
             }
             Ok(files) => {
@@ -56,7 +56,7 @@ pub fn run(mode: Modes) {
     } else {
         io::stdin()
             .read_to_string(&mut text)
-            .expect("failed to read input");
+            .expect("mi ken ala lukin e pana sina.");
     }
     output(&text, critter_config, bubble_config);
 }
