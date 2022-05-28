@@ -1,10 +1,21 @@
 [package]
 author = "kulupu lintukamaki"
 name = "kijetesantakaluotokieni"
+description = "kijetesantakalu toki pi ken ante mute (toki pona cowsay clone)"
 version = "1.0.0"
 edition = "2021"
-about = "kijetesantakalu toki tawa ilo sona sina"
+
+readme = "README.md"
+homepage = "https://git.2ki.xyz/spiders/kijetesantakaluotokieni"
+repository = "https://git.2ki.xyz/spiders/kijetesantakaluotokieni"
+documentation = "https://git.2ki.xyz/spiders/kijetesantakaluotokieni"
+license = "lawa kepeken pi ken mute"
+license-file = "LICENSE.md"
+categories = ["command-line-utilities", "games"]
+keywords = ["toki pona", "cowsay", "raccoons", "ascii art"]
+
 default-run = "kijetesantakaluotokieni"
+exclude = ["test", "asciiart"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
