@@ -12,6 +12,8 @@ kijetesantakaluotokieni - kijetesantakalu toki pi ken ante.
 
 `kijetesantakaluotokieni --seme`
 
+`kijetesantakaluotokieni --help`
+
 `kijetesantakaluopilineni [toki pi ken ante...] [toki...]`
 
 `kijesay [toki pi ken ante...] [toki...]`

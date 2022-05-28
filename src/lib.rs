@@ -93,7 +93,11 @@ struct Args {
     #[clap(short = 'n', long, help = "o pakala ala e toki")]
     pakala_ala: bool,
 
-    #[clap(short = 'k', long, help = "o ante e kule kijetesantakalu")]
+    #[clap(
+        short = 'k',
+        long,
+        help = "o ante e kule kijetesantakalu (walo, pimeja, loje, jelo, laso, kasi,sewi, unu, wawa/suli, len, sike, mamamije)"
+    )]
     kule: Vec<String>,
 
     #[clap(short = 'l', long, help = "sijelo seme li lon?")]
