@@ -114,7 +114,37 @@ $8\x1b[38;2;245;169;184m     |  |
 $8\x1b[38;2;48;164;250m (III|\\||  $9$0"
                         .to_string(),
                 },
-                "lili" => CritterTemplate {
+                "kijetesan" => CritterTemplate {
+                    anchor: 17,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: r"              $5$6$7
+             $5 $6 $7
+$8      /__          __\
+     / $1$2\   /__  /$2$1 \
+     |  |$3$4 / $1$2\$4$3|  |
+     |  |   |  |$3$4 |  |
+ (III|\|| (I|\|| $9$0$8 ||/|III)$9"
+                        .to_string(),
+                },
+                "kuletesan" => CritterTemplate {
+                    anchor: 17,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: " ".to_string(),
+                    default_right_tongue: " ".to_string(),
+                    critter: "              $5$6$7
+             $5 $6 $7
+$8      \x1b[38;2;48;164;250m/__          \x1b[38;2;255;34;41m__\\
+     \x1b[38;2;245;169;184m/ $1$2\\   \x1b[38;2;244;244;48m/__  \x1b[38;2;253;232;26m/$2$1 \\
+     \x1b[38;2;232;232;232m|  |$3$4 \x1b[38;2;232;232;232m/ $1$2\\\x1b[38;2;0;230;78m$4$3|  |
+     \x1b[38;2;245;169;184m|  |   \x1b[38;2;209;89;209m|  |$3$4 \x1b[38;2;64;128;255m|  |
+ \x1b[38;2;48;164;250m(III|\\|| \x1b[38;2;78;78;78m(I|\\|| $9$0$8 \x1b[38;2;200;41;200m||/|III)$9"
+                        .to_string(),
+                },
+                "kije-lili" => CritterTemplate {
                     anchor: 13,
                     default_left_eye: "o".to_string(),
                     default_right_eye: "o".to_string(),
@@ -509,10 +539,12 @@ pub fn list_files() -> Result<Vec<String>, (String, String)> {
     // must be updated alongside the name match statement in CritterConfig::config_from_string
     for builtin in [
         "kijetesantakalu",
+        "kije-lili",
         "kuletesantakalu",
         "kijetonsitakalu",
         "kijetonsitakatu",
-        "lili",
+        "kijetesan",
+        "kuletesan",
         "soweli",
         "soweli-a",
         "waso",
