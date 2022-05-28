@@ -4,7 +4,7 @@
 
 kulupu lintukamakaki li mama pi ilo kijetesantakaluotokieni.
 
-mama pi sitelen "mani-majuna" li jan Tony Monroe. ona li tan ilo cowsay.
+mama pi ilo cowsay pi sitelen "mani-majuna" li jan Tony Monroe.
 
 **ken sina:**
 
