@@ -20,7 +20,7 @@ mama pi sitelen "mani-majuna" li jan Tony Monroe. ona li tan ilo cowsay.
 
 - o pana e lipu ni lon poka pi ilo ni.
 - o weka ala e sona mama tan lipu ni.
-- mama pi ilo ni li ante e nimi ona, la sina o ante e nimi ona lon lipu ni, tan wile mama. sina ken ala ante e lipu majuna la sina pona. taso, sina o ante e nimi lon lipu sin ale. sama la, mama li wile weka e nimi ona la sina o weka e nimi lon lipu ni.
+- mama pi ilo ni li ante e nimi ona, la sina o ante e nimi ona lon lipu ni lon ilo ni, tan wile mama. sina ken ala ante e lipu majuna e ilo majuna la sina pona. taso, sina o ante e nimi lon lipu sin ale lon ilo sin ale. sama la, mama li wile weka e nimi ona la sina o weka e nimi ona.
 
 **pakala li kama tan kepeken pi ilo ni la...**
 
