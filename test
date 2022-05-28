@@ -1,8 +1,8 @@
 #!/usr/bin/fish
-# this test script relies on things that exist on our computer which probably don't exist on yours. it is not meant to be a demonstration. we have been using it solely for debugging as we work.
+# this test script relies on things that exist on our computer which probably don't exist on yours. it is not meant to be a demonstration and may very well fail on your compupper. we have been using it solely for debugging as we work.
 
 
-set -lx NASINKIJE "$HOME/z/preciouskijes/"
+set -lx NASINKIJE "$HOME/z/preciouskijes/:$HOME/z/kijeprivatereserve/"
 
 cargo build
 
@@ -28,7 +28,7 @@ echo mi wile e supa lape   | ./target/debug/kijetesantakaluotokieni --lape
 echo 12345678901234 | ./target/debug/kijetesantakaluotokieni
 echo Pingo pi n\'t go li sitelen | ./target/debug/kijetesantakaluotokieni --pilin --kule unu  --kule suli -b --nimi kije-lili 
 
-figlet the nineties | ./target/debug/kijetesantakaluotokieni --pakala-ala -f yupekosi
+figlet the nineties | ./target/debug/kijetesantakaluotokieni --pakala-ala -f owo
 
 ./target/debug/kijetesantakaluotokieni -l
 for name in (./target/debug/kijetesantakaluotokieni -l | string split " ");
