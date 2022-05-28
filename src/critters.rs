@@ -322,6 +322,24 @@ $8   `---´   $9$0"
             $9$0$8   ||     ||$9"
                         .to_string(),
                 },
+                "yupekosi" => CritterTemplate {
+                    anchor: 20,
+                    default_right_eye: "o".to_string(),
+                    default_left_eye: "o".to_string(),
+                    default_left_tongue: "-".to_string(),
+                    default_right_tongue: "-".to_string(),
+                    critter: r"                    $7
+$8    ////\|///\      $9$5
+$8   ///\\\||///\     $9$7
+$8  //  _    _  \\    $9$5
+$8 _||-($1)--($2)-||_   
+$8( ||    ()    || )  
+ \ \\ ///\\\ // /
+  -// ||$3$4|| \\-    
+   \\///||\\\//
+    \\\\||////$9  $0"
+                        .to_string(),
+                },
                 name => CritterConfig::template_from_file(&name)?,
             }
         } else {
