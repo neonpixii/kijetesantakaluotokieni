@@ -130,7 +130,7 @@ struct Args {
     #[clap(short = 'P', long)]
     pilin: bool,
 
-    #[clap(short = 'I', long)]
+    #[clap(short = 'I', long, help = "toki pakala li kepeken toki Inli")]
     inli: bool,
 
     // optional text input
