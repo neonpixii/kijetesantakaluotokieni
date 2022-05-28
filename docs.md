@@ -1,22 +1,30 @@
-# kijetesantakaluotokieni
+# ilo kijetesantakaluotokieni
 
-## name / nimi
+## nimi
 
 kijetesantakaluotokieni - kijetesantakalu toki pi ken ante.
 
-## synopsis / kepeken nimi lili
+## nasin ken
 
 `kijetesantakaluotokieni [--lukin LUKIN] [--uta UTA] [--nimi KIJE] [--ijo IJO] [--linja LINJA] [--poki POKI] [--kule KULE] [--pakala NANPA_PAKALA] [--pakala-ala] [toki...]`
 
 `kijetesantakaluotokieni [--o-sama] [--moli] [--wile-mani] [--monsuta] [--kasi-nasa] [--lape] [--wawa] [--lili] [--suwi] [--pilin] [toki...]`
 
-`kijetesantakaluotokieni [--seme]`
+`kijetesantakaluotokieni --seme`
 
-## description
+`kijetesantakaluopilineni [toki pi ken ante...] [toki...]`
 
-ilo `kijetesantakaluotokieni` li pali e sitelen kijetesantakalu toki. ona li toki e toki pana sina. sina pana ala e toki la ona li kepeken nasin stdin. ona li sama ilo `cowsay` lon nasin mute. toki ale ona pi ken ante li pona tawa ilo `kijetesantakaluotokieni`. taso, ken ante sin li lon ilo `kijetesantakaluotokieni`!
+`kijesay [toki pi ken ante...] [toki...]`
 
-## options / toki pi ken ante
+`kijethink [toki pi ken ante...] [toki...]`
+
+## ni li seme?
+
+ilo `kijetesantakaluotokieni` li pali e sitelen kijetesantakalu toki. ona li toki e toki pana sina. sina pana ala e toki la ona li kepeken nasin stdin. ona li sama ilo `cowsay` lon nasin mute. toki ale `cowsay` pi ken ante li pona tawa ilo `kijetesantakaluotokieni`. taso, ken ante sin li lon ilo `kijetesantakaluotokieni`!
+
+nimi kijetesantakaluotokieni en nimi kijetesantakaluopilineni li suli mute a! sina wile e nimi lili la sina ken kepeken nimi "kijesay" en nimi "kijethink".
+
+## toki pi ken ante
 
 ### ante sitelen
 
@@ -130,7 +138,7 @@ toki pakala li kepeken toki Inli.
 
 **--o-sama** (**-b**) la ona li lukin sama kulupu Borg tan sitelen Tawa Mun: Kulupu Sin. **--moli**(**-d**) la ona li pini :c. **--wile-mani** (**-g**) la wile ona li kama ike. ona li ken pilin **--monsuta** (**-p**). **--kasi-nasa** (**-s**) la ona li moku e kasi nasa mute. tenpo mute la ona li pilin **--lape** (**-t**). taso ona li moku e telo pimeja la ona li pilin **--wawa** (**-w**). **--lili** (**-y**) la lukin ona li kama lili. kin la sina ken **--suwi** (**-z**) e lukin ona. sina kepeken wan taso pi toki ante ni, la ale li pona. taso, sina kepeken ni mute, la ona li ken nasa.
 
-sina kepeken **--pilin** (**-P**) la kijetesantakalu li toki insa.
+sina kepeken **--pilin** (**-P**) la kijetesantakalu li toki insa. ni li sama nimi `kijetesantakaluopilineni` en nimi `kijethink`
 
 ## lipu kije
 
@@ -191,11 +199,11 @@ nimi pi poki lipu li lon nimi ilo $NASINKIJE, la ilo kijetesantakaluotokieni li 
 
 ## kepeken ken:
 
-`kijetesantakaluotokieni --lukin="-" --kule wawa --kule sike --kule KASI --nimi waso tonsi li pona! jan lawa ale li ike!`
+`kijetesantakaluotokieni --kule wawa --nimi kuletesan tonsi li pona! jan lawa ale li ike.`
 
-`echo Pingo pi n't go li sitelen | kijetesantakaluotokieni --kasi-nasa --pilin --ijo 🍁 --nimi kijetonsitakalu`
+`echo Pingo pi n't go li sitelen | kijetesantakaluotokieni --kasi-nasa --pilin --ijo 🍁 --nimi waso --`
 
-## bugs
+## pipi
 
 pipi li suwi.
 
