@@ -9,7 +9,6 @@ readme = "README.md"
 homepage = "https://git.2ki.xyz/spiders/kijetesantakaluotokieni"
 repository = "https://git.2ki.xyz/spiders/kijetesantakaluotokieni"
 documentation = "https://git.2ki.xyz/spiders/kijetesantakaluotokieni"
-license = "lawa kepeken pi ken mute"
 license-file = "LICENSE.md"
 categories = ["command-line-utilities", "games"]
 keywords = ["toki pona", "cowsay", "raccoons", "ascii art"]
