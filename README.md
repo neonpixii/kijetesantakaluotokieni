@@ -203,7 +203,11 @@ nimi pi poki lipu li lon nimi ilo $NASINKIJE, la ilo kijetesantakaluotokieni li 
 
 `kijetesantakaluotokieni --kule wawa --nimi kuletesan tonsi li pona! jan lawa ale li ike.`
 
-`echo Pingo pi n't go li sitelen | kijetesantakaluotokieni --kasi-nasa --pilin --ijo 🍁 --nimi waso --`
+[kijetesantakalu tu wan pi kule tonsi li toki](./screenshots/ken1.png)
+
+`echo Pingo pi n\'t go li sitelen | kijetesantakaluotokieni --kasi-nasa --kule KASI --pilin --ijo 🍁`
+
+[kijetesantakalu laso li toki. sinpin ona li nasa](./screenshots/ken2.png)
 
 ## pipi
 
