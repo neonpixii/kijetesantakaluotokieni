@@ -2,7 +2,7 @@
 author = "kulupu lintukamaki"
 name = "kijetesantakaluotokieni"
 description = "kijetesantakalu toki pi ken ante mute (toki pona cowsay clone)"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 
 readme = "README.md"

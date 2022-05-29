@@ -59,7 +59,7 @@ impl CritterConfig {
         if let Some(name) = name {
             template = match name.as_str() {
                 // when you add a new hardcoded value here, also add it in list_files
-                "kijetesantakalu" => CritterTemplate {
+                "kijetesantakalu" | "default" => CritterTemplate {
                     anchor: 14,
                     default_right_eye: "o".to_string(),
                     default_left_eye: "o".to_string(),
