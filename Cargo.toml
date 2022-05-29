@@ -14,7 +14,7 @@ categories = ["command-line-utilities", "games"]
 keywords = ["toki pona", "cowsay", "raccoons", "ascii art"]
 
 default-run = "kijetesantakaluotokieni"
-exclude = ["test", "asciiart"]
+exclude = ["test", "asciiart", ".*"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
