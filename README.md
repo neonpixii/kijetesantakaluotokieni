@@ -28,6 +28,12 @@ nimi kijetesantakaluotokieni en nimi kijetesantakaluopilineni li suli mute a! si
 
 lawa kepeken li lon tawa ilo `kijetesantakaluotokieni`. lawa li lon lipu [LICENSE.md](LICENSE.md). taso lawa kepeken li _lon ala_ tawa sitelen tan ilo ni. sina pali e sitelen kepeken ilo ni, la sina ken pali e _ijo ale_ kepeken sitelen a! sina wile ala pana e mani tawa mi. sina wile ala pana e nimi mi. sina ken pana e nimi mi la sina pona, taso sina wile ala. o pona!
 
+## lanpan ilo
+
+sina wile lanpan e ilo la sina ken kepeken ilo [cargo](https://crates.io/)
+
+`cargo install kijetesantakaluotokieni`
+
 ## toki pi ken ante
 
 ### ante sitelen
